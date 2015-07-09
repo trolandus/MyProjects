@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
 	void OnCollisionEnter2D(Collision2D col)
 	{
-		if (col.collider.tag == "Floor")
+		if (col.collider.tag == "Floor" || col.collider.tag == "Platform")
 			isGrounded = true;
 	}
 
