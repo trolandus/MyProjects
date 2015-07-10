@@ -3,9 +3,11 @@ using System.Collections;
 
 public class PlatformSpawn : MonoBehaviour {
 
-	public float startTime;
-	public float repeatTime;
-	public GameObject platform;
+	public float emptyProbability;
+	public GameObject[] platforms;
+
+	private float startTime = 0.0f;
+	private float repeatTime = 0.55f;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +21,18 @@ public class PlatformSpawn : MonoBehaviour {
 
 	void Spawn()
 	{
-		GameObject newPlatform = Instantiate<GameObject> (platform);
-		newPlatform.transform.position = this.transform.position;
+		float emptyPlatform = Random.Range (0.0f, 1.0f);
+		if (emptyPlatform >= emptyProbability) {
+			GameObject newPlatform = Instantiate<GameObject> (platforms[0]);
+			newPlatform.transform.position = this.transform.position;
+		} else {
+			GameObject newPlatform = Instantiate<GameObject> (platforms[1]);
+			newPlatform.transform.position = this.transform.position;
+		}
+	}
+
+	public void Stop()
+	{
+		CancelInvoke ();
 	}
 }
