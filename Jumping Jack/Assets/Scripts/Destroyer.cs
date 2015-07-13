@@ -17,7 +17,6 @@ public class Destroyer : MonoBehaviour {
 	{
 		if (col.tag == "Platform")
 		{
-			Debug.Log ("PUFF");
 			Destroy (col.gameObject);
 		}
 	}

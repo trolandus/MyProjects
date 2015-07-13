@@ -5,10 +5,12 @@ public class PlayerController : MonoBehaviour
 {
 	public float speed;
 	public float jumpForce;
+	public UnityEngine.UI.Image[] hitPoints;
 	
     private Animator myAnimator;
 	private Rigidbody2D myRigidbody;
 	private bool isGrounded = false;
+	private int hp = 4;
 
 	// Use this for initialization
 	void Start () {
@@ -42,6 +44,18 @@ public class PlayerController : MonoBehaviour
 			myRigidbody.AddForce(new Vector2 (0.0f, jumpForce));
 			isGrounded = false;
 		}
+
+		if (Input.GetKeyDown (KeyCode.Q))
+			GetHurt ();
+
 		transform.position += transform.right * Input.GetAxis ("Horizontal") * speed * Time.deltaTime;
+	}
+
+	void GetHurt()
+	{
+		if (hp > 0) {
+			Destroy (hitPoints [hp - 1]);
+			hp--;
+		}
 	}
 }
