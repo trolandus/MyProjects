@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Medicine : MonoBehaviour
 {
     public string name;
+    public bool isDragged;
     public Text text;
 
     private Ray ray;
@@ -17,6 +18,7 @@ public class Medicine : MonoBehaviour
 	{
 	    text.text = name;
 	    text.enabled = false;
+	    isDragged = false;
 	}
 	
 	// Update is called once per frame
@@ -32,10 +34,15 @@ public class Medicine : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 text.enabled = false;
+                isDragged = true;
                 Vector3 vec3 = Input.mousePosition;
                 vec3.z = 10.0f;
                 vec3 = Camera.main.ScreenToWorldPoint(vec3);
                 this.transform.position = vec3;
+            }
+            else
+            {
+                isDragged = false;
             }
         }
     }
@@ -45,13 +52,20 @@ public class Medicine : MonoBehaviour
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            Vector2 pos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                text.GetComponentInParent<Canvas>().transform as RectTransform, Input.mousePosition,
-                text.GetComponentInParent<Canvas>().worldCamera, out pos);
-            text.transform.position = text.GetComponentInParent<Canvas>().transform.TransformPoint(pos);
-            text.enabled = true;
-            return true;
+            if (hit.collider.tag == "Medicine")
+            {
+                Vector2 pos;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    text.GetComponentInParent<Canvas>().transform as RectTransform, Input.mousePosition,
+                    text.GetComponentInParent<Canvas>().worldCamera, out pos);
+                text.transform.position = text.GetComponentInParent<Canvas>().transform.TransformPoint(pos);
+                text.enabled = true;
+                return true;   
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
