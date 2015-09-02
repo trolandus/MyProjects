@@ -3,51 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using UnityEngine.UI;
 
 public class MedicineOutput : MonoBehaviour
 {
-    public List<Medicine> medicines;
+    public List<GameObject> medicines;
+    public Button sellButton;
 
 	// Use this for initialization
-	void Start () {
-	    medicines = new List<Medicine>();
+	void Start ()
+	{
+	    medicines = new List<GameObject>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	    
+	void Update ()
+	{
+	    if (medicines.Count == 0)
+	        sellButton.interactable = false;
+	    else
+	    {
+	        sellButton.interactable = true;
+	    }
 	}
-
-    void OnTriggerStay(Collider col)
-    {
-        if (col.tag == "Medicine")
-        {
-            Medicine m = col.GetComponent<Medicine>();
-            if (!m.isDragged && !medicines.Contains(m))
-            {
-                medicines.Add(m);
-            }
-        }
-    }
-
-    void OnTriggerExit(Collider col)
-    {
-        if (col.tag == "Medicine")
-        {
-            Medicine m = col.GetComponent<Medicine>();
-            if (medicines.Contains(m))
-            {
-                medicines.Remove(m);
-            }
-        }
-    }
 
     public void SellMedicine()
     {
-        foreach (Medicine m in medicines)
+        foreach (GameObject m in medicines.ToArray())
         {
             medicines.Remove(m);
-            GameObject.Destroy(m.gameObject);
+            m.GetComponent<Medicine>().isAdded = false;
         }
         //Check conformity to client's order
         //...
