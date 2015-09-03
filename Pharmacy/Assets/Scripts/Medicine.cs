@@ -7,12 +7,10 @@ using UnityEngine.UI;
 public class Medicine : MonoBehaviour
 {
     public string name;
-    public MedicineOutput output;
     public bool isAdded;
 
     private Ray ray;
     private RaycastHit hit;
-    private GameObject medCopy;
     private Vector3 startPosition;
 
 	// Use this for initialization
@@ -33,8 +31,8 @@ public class Medicine : MonoBehaviour
     {
         if (!isAdded)
         {
-            this.transform.position = output.transform.position;
-            output.medicines.Add(this.gameObject);
+            this.transform.position = MedicineOutput.Instance.transform.position;
+            MedicineOutput.Instance.medicines.Add(this);
             isAdded = true;   
         }
     }
@@ -43,7 +41,7 @@ public class Medicine : MonoBehaviour
     {
         if (isAdded)
         {
-            output.medicines.Remove(this.gameObject);
+            MedicineOutput.Instance.medicines.Remove(this);
             isAdded = false;
         }
     }

@@ -2,18 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine.UI;
 
-public class MedicineOutput : MonoBehaviour
+public class MedicineOutput : Singleton<MedicineOutput>
 {
-    public List<GameObject> medicines;
+    public List<Medicine> medicines;
     public Button sellButton;
+    public Client currentClient;
+
+    protected MedicineOutput() { }
 
 	// Use this for initialization
 	void Start ()
 	{
-	    medicines = new List<GameObject>();
+        medicines = new List<Medicine>();
 	}
 	
 	// Update is called once per frame
@@ -29,13 +31,41 @@ public class MedicineOutput : MonoBehaviour
 
     public void SellMedicine()
     {
-        foreach (GameObject m in medicines.ToArray())
+        int med = 0;
+
+        //Check conformity to client's order
+        foreach (Medicine m in medicines.ToArray())
+        {
+            if (MedicineDatabase.Instance.database[currentClient.trouble].Contains(m.name))
+            {
+                med++;
+            }
+        }
+
+        //foreach (Medicine m in currentClient.orderList.ToArray())
+        //{
+        //    if (medicines.Find(x => x.name == m.name) != null)
+        //    {
+        //        med++;
+        //    }
+        //}
+
+        if (med == MedicineDatabase.Instance.database[currentClient.trouble].Count)
+        {
+            currentClient.Positive();
+        }
+        else
+        {
+            currentClient.Negative();
+        }
+
+        foreach (Medicine m in medicines.ToArray())
         {
             medicines.Remove(m);
-            m.GetComponent<Medicine>().isAdded = false;
+            m.isAdded = false;
         }
-        //Check conformity to client's order
-        //...
+
+
         //Sum up profits
         //...
     }
