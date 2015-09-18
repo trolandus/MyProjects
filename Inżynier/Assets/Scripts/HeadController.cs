@@ -8,8 +8,6 @@ public class HeadController : MonoBehaviour {
 	public bool itemDetected;
 
 	public float fieldOfViewAngle = 60.0f;
-
-	//TODO: Blokada rotacji głowy (żeby była naturalna)
 	
 	// Use this for initialization
 	void Start () {

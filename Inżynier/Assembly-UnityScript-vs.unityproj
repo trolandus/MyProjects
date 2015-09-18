@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{D9A8432F-7752-C466-EB30-6EEE2F901640}</ProjectGuid>
+	<ProjectGuid>{2ACD9CD3-1759-6A61-C28D-870AB3B17C51}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,16 +46,19 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Backpack.cs" />
-     <Compile Include="Assets\Scripts\BodyCollision.cs" />
-     <Compile Include="Assets\Scripts\CameraController2.cs" />
-     <Compile Include="Assets\Scripts\Equipment.cs" />
-     <Compile Include="Assets\Scripts\HandController.cs" />
-     <Compile Include="Assets\Scripts\HeadController.cs" />
-     <Compile Include="Assets\Scripts\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\Raycasting.cs" />
-     <Compile Include="Assets\Scripts\UI.cs" />
-     <Compile Include="Assets\Scripts\Weapon.cs" />
+     <Compile Include="Assets\BaseMale\Scripts\GUI\buttonAnimationPause.js" />
+     <Compile Include="Assets\BaseMale\Scripts\GUI\buttonClickFlash.js" />
+     <Compile Include="Assets\BaseMale\Scripts\GUI\buttonHoverSetText.js" />
+     <Compile Include="Assets\BaseMale\Scripts\GUI\buttonPicker.js" />
+     <Compile Include="Assets\BaseMale\Scripts\GUI\buttonPosition.js" />
+     <Compile Include="Assets\BaseMale\Scripts\GUI\buttonSetAnimation.js" />
+     <Compile Include="Assets\BaseMale\Scripts\GUI\buttonSetMaterial.js" />
+     <Compile Include="Assets\BaseMale\Scripts\GUI\buttonSize.js" />
+     <Compile Include="Assets\BaseMale\Scripts\GUI\buttonSwitchTexture.js" />
+     <Compile Include="Assets\BaseMale\Scripts\cameraViewObject.js" />
+     <Compile Include="Assets\BaseMale\Scripts\clearText.js" />
+     <Compile Include="Assets\BaseMale\Scripts\infoText.js" />
+     <Compile Include="Assets\BaseMale\Scripts\shadow.js" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Programy/Unity 5/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

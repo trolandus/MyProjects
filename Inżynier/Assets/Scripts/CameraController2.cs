@@ -11,6 +11,7 @@ public class CameraController2 : MonoBehaviour {
 	private int equipmentIdle = Animator.StringToHash("Base Layer.EquipmentIdle");
 	private int gameplayHash = Animator.StringToHash("Gameplay");
 	private int idleHash = Animator.StringToHash("Base Layer.Idle");
+	private int pickUpHash = Animator.StringToHash("PickingUp");
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +37,10 @@ public class CameraController2 : MonoBehaviour {
 		if (player.equipment) {
 			myAnimator.ResetTrigger(gameplayHash);
 			myAnimator.SetTrigger(equipmentHash);
+		}
+		if (player.pickUp) {
+			myAnimator.ResetTrigger(gameplayHash);
+			myAnimator.SetTrigger(pickUpHash);
 		}
 	}
 

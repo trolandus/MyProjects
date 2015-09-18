@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour {
 	public float turningSpeed = 30;
 	public bool gameplay;
 	public bool equipment;
+	public bool pickUp;
+	public Weapon currentWeapon;
+	public Weapon pickedUpWeapon;
 
 	private float horizontal;
 	private float vertical;
@@ -26,8 +29,10 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		currentWeapon = null;
 		gameplay = true;
 		equipment = false;
+		pickUp = false;
 		pivot = GameObject.Find ("CameraPivot");
 		body = GameObject.Find ("Body");
 		head = GameObject.Find ("Head");
@@ -37,13 +42,19 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		OpenEquipment ();
+		if (!pickUp) {
+			OpenEquipment ();
+		}
 		if (gameplay) {
 			Movement();
 			MouseControl();
 		}
 		if (equipment) {
 			gameplay = false;
+		}
+		if (pickUp) {
+			gameplay = false;
+			ObserveItem(pickedUpWeapon);
 		}
 	}
 
@@ -85,6 +96,21 @@ public class PlayerController : MonoBehaviour {
 		newForward = new Vector3 (pivot.transform.forward.x, 0, pivot.transform.forward.z);
 	}
 
+	public void ObserveItem(Weapon w){
+		Debug.Log (CompareWeapons (w, currentWeapon));
+
+		w.WeaponRotationX += Input.GetAxis ("Mouse X") * turningSpeed;
+		w.WeaponRotationY += Input.GetAxis ("Mouse Y") * turningSpeed;
+
+		w.WeaponRotationX = ClampAngle (w.WeaponRotationX, -30.0f, 30.0f);
+		w.WeaponRotationY = ClampAngle (w.WeaponRotationY, -30.0f, 30.0f);
+
+		Quaternion xQuaternion = Quaternion.AngleAxis (w.WeaponRotationX, -Vector3.up);
+		Quaternion yQuaternion = Quaternion.AngleAxis (w.WeaponRotationY, Vector3.forward);
+
+		w.transform.localRotation = w.WeaponOriginalRotation * xQuaternion * yQuaternion;
+	}
+
 	float ClampAngle(float angle, float min, float max)
 	{
 		if (angle < -360F)
@@ -92,5 +118,24 @@ public class PlayerController : MonoBehaviour {
 		if (angle > 360F)
 			angle -= 360F;
 		return Mathf.Clamp (angle, min, max);
+	}
+
+//zrobić komparator dla trzech sztuk broni
+	public string CompareWeapons(Weapon weapon, Weapon currentWeapon)
+	{
+		string s = "";
+		if (currentWeapon != null) {
+
+			if (currentWeapon.damage > weapon.damage) {
+				s = weapon.name + " deals less damage than " + currentWeapon.name;
+			} else if (currentWeapon.damage == weapon.damage) {
+				s = weapon.name + " deals same amount of damage as " + currentWeapon.name;
+			} else if (currentWeapon.damage < weapon.damage) {
+				s = weapon.name + " deals more damage than " + currentWeapon.name;
+			}
+		} else {
+			s = "You currently have " + "0" + " weapons. Take it.";
+		}
+		return s;
 	}
 }

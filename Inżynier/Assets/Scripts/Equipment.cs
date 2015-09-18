@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Equipment : MonoBehaviour {
 
+	public GameObject hand;
+
 	private PlayerController player;
 
 	// Use this for initialization
@@ -18,6 +20,7 @@ public class Equipment : MonoBehaviour {
 	void OnMouseOver()
 	{
 		if (player.equipment) {
+			//hand.transform.LookAt(this.transform.position);
 			print ("Check Equipment");
 		}
 	}
