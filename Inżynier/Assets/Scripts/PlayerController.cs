@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if (!pickUp) {
 			OpenEquipment ();
+			if(currentWeapon != null)
+				TurnOffStrings();
 		}
 		if (gameplay) {
 			Movement();
@@ -55,6 +57,12 @@ public class PlayerController : MonoBehaviour {
 		if (pickUp) {
 			gameplay = false;
 			ObserveItem(pickedUpWeapon);
+			if(Input.GetKeyDown (KeyCode.E)){
+				head.GetComponent<HeadController>().itemDetected = false;
+				pickUp = false;
+				gameplay = true;
+				WieldWeapon();
+			}
 		}
 	}
 
@@ -135,7 +143,32 @@ public class PlayerController : MonoBehaviour {
 			}
 		} else {
 			s = "You currently have " + "0" + " weapons. Take it.";
+			foreach(WeaponElement e in weapon.elements)
+			{
+				ParticleSystem ps = e.gameObject.GetComponent<ParticleSystem>();
+				ps.startColor = Color.blue;
+				ps.Emit(1);
+				e.statText.color = Color.blue;
+				e.statText.enabled = true;
+			}
 		}
 		return s;
+	}
+
+	void WieldWeapon()
+	{
+		currentWeapon = pickedUpWeapon;
+		pickedUpWeapon = null;
+		//currentWeapon.transform.rotation = currentWeapon.WeaponOriginalRotation;
+		currentWeapon.gameObject.GetComponent<Raycasting> ().enabled = false;
+	}
+
+	void TurnOffStrings()
+	{
+		foreach(WeaponElement e in currentWeapon.elements)
+		{
+			ParticleSystem ps = e.gameObject.GetComponent<ParticleSystem>();
+			e.statText.enabled = false;
+		}
 	}
 }

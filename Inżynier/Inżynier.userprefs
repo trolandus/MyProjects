@@ -1,17 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BodyCollision.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
     <Files>
-      <File FileName="Assets\Scripts\BodyCollision.cs" Line="49" Column="41" />
+      <File FileName="Assets\Scripts\CameraController2.cs" Line="36" Column="5" />
+      <File FileName="Assets\Scripts\Weapon.cs" Line="45" Column="17" />
+      <File FileName="Assets\Scripts\BodyCollision.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Backpack.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerController.cs" Line="105" Column="70" />
-      <File FileName="Assets\Scripts\Weapon.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="162" Column="5" />
       <File FileName="Assets\Scripts\HeadController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CameraController2.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Raycasting.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Equipment.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\HandController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\WeaponElement.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

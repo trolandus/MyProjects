@@ -23,10 +23,8 @@ public class BodyCollision : MonoBehaviour {
 	void OnTriggerEnter(Collider col)
 	{
 		if (col.tag == "Weapon") {
-			//Debug.Log (player.CompareWeapons (col.GetComponent<Weapon> (), player.currentWeapon));
 			col.GetComponent<Weapon>().isActive = true;
 			weaponIsActive = true;
-			//player.pickUp = true;
 			collidingWeapon = col.GetComponent<Weapon>();
 			col.GetComponent<Weapon>().buttonImage.transform.position = new Vector3(col.transform.position.x, col.transform.position.y + 0.5f, col.transform.position.z);
 		}

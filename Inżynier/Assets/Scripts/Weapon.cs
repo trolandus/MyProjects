@@ -5,7 +5,7 @@ public class Weapon : MonoBehaviour {
 
 	public string name;
 	public int damage;
-	public GameObject[] elements;
+	public WeaponElement[] elements;
 
 	public UnityEngine.UI.Image buttonImage;
 	public bool isActive;
