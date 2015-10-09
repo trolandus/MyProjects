@@ -10,12 +10,12 @@ public class PlayerController : MonoBehaviour {
 	public bool pickUp;
 	public Weapon currentWeapon;
 	public Weapon pickedUpWeapon;
+	public GameObject pivot;
+	public GameObject body;
+	public GameObject head;
 
 	private float horizontal;
 	private float vertical;
-	private GameObject pivot;
-	private GameObject body;
-	private GameObject head;
 
 	private Quaternion originalRotation;
 	private float rotationX = 0;
@@ -33,9 +33,9 @@ public class PlayerController : MonoBehaviour {
 		gameplay = true;
 		equipment = false;
 		pickUp = false;
-		pivot = GameObject.Find ("CameraPivot");
-		body = GameObject.Find ("Body");
-		head = GameObject.Find ("Head");
+//		pivot = GameObject.Find ("CameraPivot");
+//		body = GameObject.Find ("Body");
+//		head = GameObject.Find ("Head");
 		originalRotation = pivot.transform.localRotation;
 		newForward = this.transform.forward;
 	}
@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour {
 
 		w.transform.localRotation = w.WeaponOriginalRotation * xQuaternion * yQuaternion;
 
-		if(Input.GetKeyDown (KeyCode.E)){
+		if(Input.GetKeyDown (KeyCode.F)){
 			head.GetComponent<HeadController>().itemDetected = false;
 			pickUp = false;
 			gameplay = true;
