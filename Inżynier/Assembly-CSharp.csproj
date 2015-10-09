@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Backpack.cs" />
      <Compile Include="Assets\Scripts\BodyCollision.cs" />
+     <Compile Include="Assets\Scripts\BottleWriting.cs" />
      <Compile Include="Assets\Scripts\CameraController2.cs" />
      <Compile Include="Assets\Scripts\Equipment.cs" />
      <Compile Include="Assets\Scripts\HandController.cs" />

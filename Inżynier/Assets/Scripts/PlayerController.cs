@@ -57,12 +57,6 @@ public class PlayerController : MonoBehaviour {
 		if (pickUp) {
 			gameplay = false;
 			ObserveItem(pickedUpWeapon);
-			if(Input.GetKeyDown (KeyCode.E)){
-				head.GetComponent<HeadController>().itemDetected = false;
-				pickUp = false;
-				gameplay = true;
-				WieldWeapon();
-			}
 		}
 	}
 
@@ -117,6 +111,13 @@ public class PlayerController : MonoBehaviour {
 		Quaternion yQuaternion = Quaternion.AngleAxis (w.WeaponRotationY, Vector3.forward);
 
 		w.transform.localRotation = w.WeaponOriginalRotation * xQuaternion * yQuaternion;
+
+		if(Input.GetKeyDown (KeyCode.E)){
+			head.GetComponent<HeadController>().itemDetected = false;
+			pickUp = false;
+			gameplay = true;
+			WieldWeapon();
+		}
 	}
 
 	float ClampAngle(float angle, float min, float max)
