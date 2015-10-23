@@ -67,8 +67,12 @@ public class PlayerController : MonoBehaviour {
 			if (equipment) {
 				gameplay = true;
 				equipment = false;
+				myAnimator.SetBool("Equipment", false);
 			} else
+			{
+				myAnimator.SetBool("Equipment", true);
 				equipment = true;
+			}
 		}
 	}
 
