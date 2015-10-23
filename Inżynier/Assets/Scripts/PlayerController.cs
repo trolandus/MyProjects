@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour {
 	private float maximumY = 30f;
 
 	private Vector3 newForward;
+	private Vector3 movement;
+	private Animator myAnimator;
+	public bool isWalking;
 
 	// Use this for initialization
 	void Start () {
@@ -33,9 +36,7 @@ public class PlayerController : MonoBehaviour {
 		gameplay = true;
 		equipment = false;
 		pickUp = false;
-//		pivot = GameObject.Find ("CameraPivot");
-//		body = GameObject.Find ("Body");
-//		head = GameObject.Find ("Head");
+		myAnimator = GetComponent<Animator> ();
 		originalRotation = pivot.transform.localRotation;
 		newForward = this.transform.forward;
 	}
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (gameplay) {
 			Movement();
+			WalkAnim ();
 			MouseControl();
 		}
 		if (equipment) {
@@ -72,8 +74,8 @@ public class PlayerController : MonoBehaviour {
 
 	void Movement(){
 		horizontal = Input.GetAxis ("Horizontal") * movementSpeed;
-		
 		vertical = Input.GetAxis ("Vertical") * movementSpeed;
+
 		body.transform.Translate (horizontal, 0, vertical);
 		pivot.transform.position = head.transform.position;
 
@@ -170,6 +172,19 @@ public class PlayerController : MonoBehaviour {
 		{
 			ParticleSystem ps = e.gameObject.GetComponent<ParticleSystem>();
 			e.statText.enabled = false;
+		}
+	}
+
+	void WalkAnim()
+	{
+		if (horizontal != 0 || vertical != 0) {
+			myAnimator.SetFloat("Speed", vertical);
+			myAnimator.SetFloat("SpeedStrafe", horizontal);
+			isWalking = true;
+		} else {
+			myAnimator.SetFloat("Speed", 0.0f);
+			myAnimator.SetFloat("SpeedStrafe", 0.0f);
+			isWalking = false;
 		}
 	}
 }
