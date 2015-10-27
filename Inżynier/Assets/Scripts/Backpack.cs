@@ -24,7 +24,7 @@ public class Backpack : MonoBehaviour {
 			this.transform.localRotation = oldRotation;
 		}
 		if (player.equipment) {
-			this.transform.position = new Vector3(body.transform.position.x + body.transform.forward.x, 0.25f, body.transform.position.z + body.transform.forward.z);
+			this.transform.position = new Vector3(body.transform.position.x + 0.85f*body.transform.forward.x, 0.25f, body.transform.position.z + 0.85f*body.transform.forward.z);
 			this.transform.rotation = Quaternion.Euler(rotation);
 		}
 	}
