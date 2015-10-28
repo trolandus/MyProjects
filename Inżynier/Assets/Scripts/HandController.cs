@@ -7,6 +7,7 @@ public class HandController : MonoBehaviour {
 	public GameObject defaultLookAt;
 	public GameObject weaponPivot;
 	public Transform currentObject;
+	public Animator myAnimator;
 
 	private Ray ray;
 	private RaycastHit hit;
@@ -21,8 +22,10 @@ public class HandController : MonoBehaviour {
 	void Update () {
 		if (player.gameplay) {
 			//this.transform.LookAt(defaultLookAt.transform.position);
+			myAnimator.enabled = false;
 		}
 		if (player.equipment) {
+			myAnimator.enabled = true;
 			ManageEquipment ();
 		}
 	}
@@ -50,9 +53,11 @@ public class HandController : MonoBehaviour {
 
 	void MoveHand(Transform obj){
 		if (obj != null)
-			this.transform.position = obj.position;
+			//this.transform.position = obj.position;
+			myAnimator.SetBool ("PointAt", true);
 		else
-			this.transform.localPosition = oldPosition;
+			myAnimator.SetBool ("PointAt", false);
+			//this.transform.localPosition = oldPosition;
 	}
 
 	public Vector3 GetOldPosition(){
