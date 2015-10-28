@@ -28,12 +28,4 @@ public class Backpack : MonoBehaviour {
 			this.transform.rotation = Quaternion.Euler(rotation);
 		}
 	}
-
-	void OnMouseOver()
-	{
-		if (player.equipment) {
-			//hand.transform.LookAt(this.transform.position);
-			print("Backpack");
-		}
-	}
 }

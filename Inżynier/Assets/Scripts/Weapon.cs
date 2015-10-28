@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Weapon : MonoBehaviour {
 
-	public string name;
+	public string weaponName;
 	public int damage;
 	public WeaponElement[] elements;
 

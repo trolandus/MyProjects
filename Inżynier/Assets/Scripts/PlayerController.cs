@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 newForward;
 	private Vector3 movement;
 	private Animator myAnimator;
+	private HandController hand;
 	public bool isWalking;
 
 	// Use this for initialization
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour {
 		myAnimator = GetComponent<Animator> ();
 		originalRotation = pivot.transform.localRotation;
 		newForward = this.transform.forward;
+		hand = GameObject.Find ("mixamorig:RightHand").GetComponent<HandController> ();
 	}
 	
 	// Update is called once per frame
@@ -67,6 +69,8 @@ public class PlayerController : MonoBehaviour {
 			if (equipment) {
 				gameplay = true;
 				equipment = false;
+				hand.transform.localPosition = hand.GetOldPosition();
+				hand.currentObject = null;
 				myAnimator.SetBool("Equipment", false);
 			} else
 			{
