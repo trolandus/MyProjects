@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour {
 				gameplay = true;
 				equipment = false;
 				hand.transform.localPosition = hand.GetOldPosition();
+				hand.PutBack();
 				hand.currentObject = null;
 				myAnimator.SetBool("Equipment", false);
 			} else

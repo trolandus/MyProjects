@@ -12,6 +12,7 @@ public class HandController : MonoBehaviour {
 	private Ray ray;
 	private RaycastHit hit;
 	private Vector3 oldPosition;
+	private bool isGrabing;
 
 	// Use this for initialization
 	void Start () {
@@ -48,19 +49,40 @@ public class HandController : MonoBehaviour {
 				Debug.Log ("BackpackItem");
 			}
 		} else
-			currentObject = null;
+			if(!isGrabing)
+				currentObject = null;
 	}
 
 	void MoveHand(Transform obj){
-		if (obj != null)
+		if (obj != null) {
 			//this.transform.position = obj.position;
 			myAnimator.SetBool ("PointAt", true);
+			if(Input.GetMouseButton(0))
+				GrabItem();
+		}
 		else
-			myAnimator.SetBool ("PointAt", false);
+			if(!isGrabing)
+				myAnimator.SetBool ("PointAt", false);
 			//this.transform.localPosition = oldPosition;
 	}
 
 	public Vector3 GetOldPosition(){
 		return oldPosition;
+	}
+
+	void GrabItem(){
+		myAnimator.SetBool ("PutBack", false);
+		isGrabing = true;
+		myAnimator.SetBool ("Grab", true);
+	}
+
+	public void PutBack(){
+		myAnimator.SetBool ("PutBack", true);
+		currentObject.parent = null;
+		isGrabing = false;
+		if (currentObject.GetComponent<Mixtures> ()) {
+			currentObject.transform.parent = currentObject.GetComponent<Mixtures> ().OldParent;
+			currentObject.transform.localPosition = currentObject.GetComponent<Mixtures> ().OldPosition;
+		}
 	}
 }
