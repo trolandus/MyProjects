@@ -14,6 +14,10 @@ public class HandController : MonoBehaviour {
 	private Vector3 oldPosition;
 	private bool isGrabing;
 
+	private float yawMouse;
+	private float pitchMouse;
+
+
 	// Use this for initialization
 	void Start () {
 		oldPosition = this.transform.localPosition;
@@ -23,7 +27,7 @@ public class HandController : MonoBehaviour {
 	void Update () {
 		if (player.gameplay) {
 			//this.transform.LookAt(defaultLookAt.transform.position);
-			myAnimator.enabled = false;
+			//myAnimator.enabled = false;
 		}
 		if (player.equipment) {
 			myAnimator.enabled = true;
@@ -46,7 +50,6 @@ public class HandController : MonoBehaviour {
 		if (Physics.Raycast (ray, out hit)) {
 			if (hit.collider.tag == "BackpackItem") {
 				currentObject = hit.collider.transform;
-				Debug.Log ("BackpackItem");
 			}
 		} else
 			if(!isGrabing)
@@ -55,7 +58,6 @@ public class HandController : MonoBehaviour {
 
 	void MoveHand(Transform obj){
 		if (obj != null) {
-			//this.transform.position = obj.position;
 			myAnimator.SetBool ("PointAt", true);
 			if(Input.GetMouseButton(0))
 				GrabItem();
@@ -63,11 +65,6 @@ public class HandController : MonoBehaviour {
 		else
 			if(!isGrabing)
 				myAnimator.SetBool ("PointAt", false);
-			//this.transform.localPosition = oldPosition;
-	}
-
-	public Vector3 GetOldPosition(){
-		return oldPosition;
 	}
 
 	void GrabItem(){
@@ -77,12 +74,14 @@ public class HandController : MonoBehaviour {
 	}
 
 	public void PutBack(){
-		myAnimator.SetBool ("PutBack", true);
-		currentObject.parent = null;
-		isGrabing = false;
-		if (currentObject.GetComponent<Mixtures> ()) {
-			currentObject.transform.parent = currentObject.GetComponent<Mixtures> ().OldParent;
-			currentObject.transform.localPosition = currentObject.GetComponent<Mixtures> ().OldPosition;
+		if (currentObject != null) {
+			myAnimator.SetBool ("PutBack", true);
+			currentObject.parent = null;
+			isGrabing = false;
+			if (currentObject.GetComponent<Mixtures> ()) {
+				currentObject.transform.parent = currentObject.GetComponent<Mixtures> ().OldParent;
+				currentObject.transform.localPosition = currentObject.GetComponent<Mixtures> ().OldPosition;
+			}
 		}
 	}
 }

@@ -69,9 +69,9 @@ public class PlayerController : MonoBehaviour {
 			if (equipment) {
 				gameplay = true;
 				equipment = false;
-				hand.transform.localPosition = hand.GetOldPosition();
 				hand.PutBack();
 				hand.currentObject = null;
+				hand.myAnimator.enabled = false;
 				myAnimator.SetBool("Equipment", false);
 			} else
 			{
@@ -110,6 +110,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void ObserveItem(Weapon w){
+		this.myAnimator.enabled = false;
 		Debug.Log (CompareWeapons (w, currentWeapon));
 
 		w.WeaponRotationX += Input.GetAxis ("Mouse X") * turningSpeed;
@@ -125,9 +126,12 @@ public class PlayerController : MonoBehaviour {
 
 		if(Input.GetKeyDown (KeyCode.F)){
 			head.GetComponent<HeadController>().itemDetected = false;
+			hand.myAnimator.SetBool("Show Weapon", false);
+			hand.myAnimator.enabled = false;
 			pickUp = false;
 			gameplay = true;
 			WieldWeapon();
+			this.myAnimator.enabled = true;
 		}
 	}
 

@@ -55,6 +55,9 @@ public class BodyCollision : MonoBehaviour {
 
 			weaponIsActive = false;
 
+			hand.myAnimator.enabled = true;
+			hand.myAnimator.SetBool("Show Weapon", true);
+
 			//hand transformation
 			//hand.transform.Rotate(-90, 0, 0);
 			/////////////////////

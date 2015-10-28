@@ -1,11 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\HandController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
     <Files>
-      <File FileName="Assets\Scripts\HandController.cs" Line="74" Column="41" />
-      <File FileName="Assets\Scripts\AnimEvent.cs" Line="23" Column="3" />
-      <File FileName="Assets\Scripts\PlayerController.cs" Line="74" Column="31" />
-      <File FileName="Assets\Scripts\Mixtures.cs" Line="23" Column="38" />
+      <File FileName="Assets\Scripts\HandController.cs" Line="30" Column="6" />
+      <File FileName="Assets\Scripts\AnimEvent.cs" Line="22" Column="43" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="134" Column="35" />
+      <File FileName="Assets\Scripts\Mixtures.cs" Line="28" Column="3" />
+      <File FileName="Assets\Scripts\BodyCollision.cs" Line="58" Column="19" />
+      <File FileName="Assets\Scripts\Weapon.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\WeaponElement.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
