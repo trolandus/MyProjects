@@ -81,6 +81,8 @@ public class HandController : MonoBehaviour {
 			if (currentObject.GetComponent<Mixtures> ()) {
 				currentObject.transform.parent = currentObject.GetComponent<Mixtures> ().OldParent;
 				currentObject.transform.localPosition = currentObject.GetComponent<Mixtures> ().OldPosition;
+				currentObject.transform.localRotation = currentObject.GetComponent<Mixtures> ().OldRotation;
+				currentObject.transform.localScale = currentObject.GetComponent<Mixtures>().OldScale;
 			}
 		}
 	}
