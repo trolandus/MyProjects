@@ -36,7 +36,7 @@ public class HandController : MonoBehaviour {
 	}
 
 	void LateUpdate(){
-		if (GameState.Instance.currentState == States.EQUIPMENT) {
+		if (GameState.Instance.currentBackpackLayer == BackpackLayers.CHOOSE_ITEM) {
 			MoveHand(currentObject);
 		}
 	}
@@ -71,6 +71,7 @@ public class HandController : MonoBehaviour {
 	void GrabItem(){
 		myAnimator.SetBool ("PutBack", false);
 		isGrabing = true;
+		GameState.Instance.currentBackpackLayer = BackpackLayers.ITEM_CHOSEN;
 		myAnimator.SetBool ("Grab", true);
 	}
 

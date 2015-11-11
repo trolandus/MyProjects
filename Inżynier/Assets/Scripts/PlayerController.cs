@@ -78,28 +78,16 @@ public class PlayerController : MonoBehaviour {
 
 	void OpenEquipment(){
 		if (Input.GetKeyDown (KeyCode.I)) {
-//			if (equipment) {
-//				gameplay = true;
-//				equipment = false;
-//				hand.PutBack();
-//				hand.currentObject = null;
-//				hand.myAnimator.enabled = false;
-//				myAnimator.SetBool("Equipment", false);
-//			} else
-			//{
 			myAnimator.SetBool("Equipment", true);
-				//gameplay = false;
+			GameState.Instance.currentBackpackLayer = BackpackLayers.CHOOSE_ITEM;
 			GameState.Instance.currentState = States.EQUIPMENT;
-				//equipment = true;
-			//}
 		}
 	}
 
 	void CloseEquipment(){
-		if (Input.GetKeyDown (KeyCode.Escape)) {
-				//gameplay = true;
-				//equipment = false;
+		if (Input.GetKeyDown (KeyCode.Escape) && GameState.Instance.currentBackpackLayer == BackpackLayers.CHOOSE_ITEM) {
 			GameState.Instance.currentState = States.GAMEPLAY;
+			GameState.Instance.currentBackpackLayer = BackpackLayers.NONE;
 			hand.PutBack();
 			hand.currentObject = null;
 			hand.myAnimator.enabled = false;

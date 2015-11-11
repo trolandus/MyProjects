@@ -15,6 +15,7 @@ public class Backpack : MonoBehaviour {
 		player = GetComponentInParent<PlayerController> ();
 		oldRotation = this.transform.localRotation;
 		rotation = new Vector3 (-90, 0, 0);
+		GameState.Instance.currentBackpackLayer = BackpackLayers.NONE;
 	}
 	
 	// Update is called once per frame

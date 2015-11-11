@@ -4,6 +4,7 @@ using System.Collections;
 public class CameraController2 : MonoBehaviour {
 
 	public PlayerController player;
+	public Mixtures mixtures;
 
 	private GameObject pivotpoint;
 	private Animator myAnimator;
@@ -45,8 +46,20 @@ public class CameraController2 : MonoBehaviour {
 		if (GameState.Instance.currentState == States.EQUIPMENT) {
 			myAnimator.ResetTrigger(gameplayHash);
 			myAnimator.SetTrigger(equipmentHash);
-			if(player.Hand.currentObject != null && Input.GetKeyDown(KeyCode.Space))
+			if(player.Hand.currentObject != null && Input.GetKeyDown(KeyCode.Space) && GameState.Instance.currentBackpackLayer == BackpackLayers.ITEM_CHOSEN)
+			{
 				myAnimator.SetBool("ShowCloser", true);
+				GameState.Instance.currentBackpackLayer = BackpackLayers.OBSERVE_ITEM;
+				mixtures.start = true;
+			}
+			if(InputManager.Instance.lastKeyPressed == KeyCode.Escape && GameState.Instance.currentBackpackLayer == BackpackLayers.OBSERVE_ITEM)
+			{
+				player.Hand.PutBack();
+				GameState.Instance.currentBackpackLayer = BackpackLayers.CHOOSE_ITEM;
+				myAnimator.SetBool("ShowCloser", false);
+				mixtures.TurnOff();
+				InputManager.Instance.lastKeyPressed = KeyCode.None;
+			}
 		}
 		if (player.pickUp) {
 			myAnimator.ResetTrigger(gameplayHash);

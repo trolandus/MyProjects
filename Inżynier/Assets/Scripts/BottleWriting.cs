@@ -8,19 +8,24 @@ public class BottleWriting : MonoBehaviour {
 	public Text myText;
 
 	private string note;
+	private SingleObject so;
 
 	// Use this for initialization
 	void Start () {
+		so = this.gameObject.GetComponent<SingleObject> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (GameState.Instance.currentState == States.EQUIPMENT) {
+		if (GameState.Instance.currentBackpackLayer == BackpackLayers.WRITE_ON_SUBITEM && so.isActive) {
 			myInputField.enabled = true;
-			if (myInputField.isFocused) {
-				myText.enabled = false;
-			}
-			note = myText.text;
+			myInputField.textComponent.enabled = true;
+			myInputField.Select();
+			myInputField.ActivateInputField();
+			//if (myInputField.isFocused) {
+			//	myText.enabled = false;
+			//}
+			//note = myText.text;
 		} else
 			myInputField.enabled = false;
 	}
@@ -34,6 +39,6 @@ public class BottleWriting : MonoBehaviour {
 		//myText.text = s;
 		myText.enabled = true;
 		myText.text = s;
-		myInputField.text = " ";
+		myInputField.textComponent.enabled = false;
 	}
 }
