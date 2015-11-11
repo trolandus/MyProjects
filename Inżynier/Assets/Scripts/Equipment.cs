@@ -19,7 +19,7 @@ public class Equipment : MonoBehaviour {
 	
 	void OnMouseOver()
 	{
-		if (player.equipment) {
+		if (GameState.Instance.currentState == States.EQUIPMENT) {
 			//hand.transform.LookAt(this.transform.position);
 			print ("Check Equipment");
 		}

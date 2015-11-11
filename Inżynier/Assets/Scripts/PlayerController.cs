@@ -5,8 +5,8 @@ public class PlayerController : MonoBehaviour {
 
 	public float movementSpeed = 10;
 	public float turningSpeed = 30;
-	public bool gameplay;
-	public bool equipment;
+	//public bool gameplay;
+	//public bool equipment;
 	public bool pickUp;
 	public Weapon currentWeapon;
 	public Weapon pickedUpWeapon;
@@ -31,12 +31,18 @@ public class PlayerController : MonoBehaviour {
 	private HandController hand;
 	public bool isWalking;
 
+	public HandController Hand {
+		get { return hand;}
+		set { hand = value;}
+	}
+
 	// Use this for initialization
 	void Start () {
 		currentWeapon = null;
-		gameplay = true;
-		equipment = false;
-		pickUp = false;
+		GameState.Instance.currentState = States.GAMEPLAY;
+		//gameplay = true;
+		//equipment = false;
+		//pickUp = false;
 		myAnimator = GetComponent<Animator> ();
 		originalRotation = pivot.transform.localRotation;
 		newForward = this.transform.forward;
@@ -45,39 +51,59 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!pickUp) {
-			OpenEquipment ();
-			if(currentWeapon != null)
-				TurnOffStrings();
-		}
-		if (gameplay) {
+//		if (!pickUp) {
+//			OpenEquipment ();
+//			if(currentWeapon != null)
+//				TurnOffStrings();
+//		}
+		if (GameState.Instance.currentState == States.GAMEPLAY) {
 			Movement();
 			WalkAnim ();
 			MouseControl();
+			if (!pickUp) {
+				OpenEquipment ();
+				if(currentWeapon != null)
+					TurnOffStrings();
+			}
 		}
-		if (equipment) {
-			gameplay = false;
+		if (GameState.Instance.currentState == States.EQUIPMENT) {
+			CloseEquipment();
+			//gameplay = false;
 		}
 		if (pickUp) {
-			gameplay = false;
+			//gameplay = false;
 			ObserveItem(pickedUpWeapon);
 		}
 	}
 
 	void OpenEquipment(){
 		if (Input.GetKeyDown (KeyCode.I)) {
-			if (equipment) {
-				gameplay = true;
-				equipment = false;
-				hand.PutBack();
-				hand.currentObject = null;
-				hand.myAnimator.enabled = false;
-				myAnimator.SetBool("Equipment", false);
-			} else
-			{
-				myAnimator.SetBool("Equipment", true);
-				equipment = true;
-			}
+//			if (equipment) {
+//				gameplay = true;
+//				equipment = false;
+//				hand.PutBack();
+//				hand.currentObject = null;
+//				hand.myAnimator.enabled = false;
+//				myAnimator.SetBool("Equipment", false);
+//			} else
+			//{
+			myAnimator.SetBool("Equipment", true);
+				//gameplay = false;
+			GameState.Instance.currentState = States.EQUIPMENT;
+				//equipment = true;
+			//}
+		}
+	}
+
+	void CloseEquipment(){
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+				//gameplay = true;
+				//equipment = false;
+			GameState.Instance.currentState = States.GAMEPLAY;
+			hand.PutBack();
+			hand.currentObject = null;
+			hand.myAnimator.enabled = false;
+			myAnimator.SetBool("Equipment", false);
 		}
 	}
 
@@ -128,8 +154,9 @@ public class PlayerController : MonoBehaviour {
 			head.GetComponent<HeadController>().itemDetected = false;
 			hand.myAnimator.SetBool("Show Weapon", false);
 			hand.myAnimator.enabled = false;
+			GameState.Instance.currentState = States.GAMEPLAY;
 			pickUp = false;
-			gameplay = true;
+			//gameplay = true;
 			WieldWeapon();
 			this.myAnimator.enabled = true;
 		}

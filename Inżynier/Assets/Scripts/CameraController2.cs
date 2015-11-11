@@ -9,6 +9,7 @@ public class CameraController2 : MonoBehaviour {
 	private Animator myAnimator;
 	private int equipmentHash = Animator.StringToHash("Equipment");
 	private int equipmentIdle = Animator.StringToHash("Base Layer.EquipmentIdle");
+	private int showCloser = Animator.StringToHash ("Base Layer.ShowCloser");
 	private int gameplayHash = Animator.StringToHash("Gameplay");
 	private int idleHash = Animator.StringToHash("Base Layer.Idle");
 	private int pickUpHash = Animator.StringToHash("PickingUp");
@@ -23,9 +24,10 @@ public class CameraController2 : MonoBehaviour {
 	// LateUpdate is called once per frame after Update has finished
 	void LateUpdate () {
 		AnimatorStateInfo stateInfo = myAnimator.GetCurrentAnimatorStateInfo (0);
-		if (player.gameplay) {
-			if(stateInfo.nameHash == equipmentIdle)
+		if (GameState.Instance.currentState == States.GAMEPLAY) {
+			if(stateInfo.nameHash == equipmentIdle || stateInfo.nameHash == showCloser)
 			{
+				myAnimator.SetBool("ShowCloser", false);
 				myAnimator.ResetTrigger(equipmentHash);
 				myAnimator.SetTrigger(gameplayHash);
 			}
@@ -40,9 +42,11 @@ public class CameraController2 : MonoBehaviour {
 				CameraMovement();
 			}
 		}
-		if (player.equipment) {
+		if (GameState.Instance.currentState == States.EQUIPMENT) {
 			myAnimator.ResetTrigger(gameplayHash);
 			myAnimator.SetTrigger(equipmentHash);
+			if(player.Hand.currentObject != null && Input.GetKeyDown(KeyCode.Space))
+				myAnimator.SetBool("ShowCloser", true);
 		}
 		if (player.pickUp) {
 			myAnimator.ResetTrigger(gameplayHash);

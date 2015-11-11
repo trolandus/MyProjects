@@ -15,9 +15,14 @@ public class BottleWriting : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (myInputField.isFocused)
-			myText.enabled = false;
-		note = myText.text;
+		if (GameState.Instance.currentState == States.EQUIPMENT) {
+			myInputField.enabled = true;
+			if (myInputField.isFocused) {
+				myText.enabled = false;
+			}
+			note = myText.text;
+		} else
+			myInputField.enabled = false;
 	}
 
 	public void OnValueChange(string s){
@@ -26,8 +31,9 @@ public class BottleWriting : MonoBehaviour {
 
 	public void OnEndEdit(string s){
 		Debug.Log ("koniec");
-		myText.text = s;
+		//myText.text = s;
 		myText.enabled = true;
-		myInputField.text = "";
+		myText.text = s;
+		myInputField.text = " ";
 	}
 }

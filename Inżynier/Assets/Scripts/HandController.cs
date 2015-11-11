@@ -25,18 +25,18 @@ public class HandController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (player.gameplay) {
+		if (GameState.Instance.currentState == States.GAMEPLAY) {
 			//this.transform.LookAt(defaultLookAt.transform.position);
 			//myAnimator.enabled = false;
 		}
-		if (player.equipment) {
+		if (GameState.Instance.currentState == States.EQUIPMENT) {
 			myAnimator.enabled = true;
 			ManageEquipment ();
 		}
 	}
 
 	void LateUpdate(){
-		if (player.equipment) {
+		if (GameState.Instance.currentState == States.EQUIPMENT) {
 			MoveHand(currentObject);
 		}
 	}
@@ -50,6 +50,7 @@ public class HandController : MonoBehaviour {
 		if (Physics.Raycast (ray, out hit)) {
 			if (hit.collider.tag == "BackpackItem") {
 				currentObject = hit.collider.transform;
+				currentObject.localRotation = Quaternion.Euler(new Vector3(351.0f, 346.0f, 0.0f));
 			}
 		} else
 			if(!isGrabing)

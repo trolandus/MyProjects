@@ -19,11 +19,11 @@ public class Backpack : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (player.gameplay) {
+		if (GameState.Instance.currentState == States.GAMEPLAY) {
 			this.transform.localPosition = new Vector3(0, 0.27f, -0.11f);
 			this.transform.localRotation = oldRotation;
 		}
-		if (player.equipment) {
+		if (GameState.Instance.currentState == States.EQUIPMENT) {
 			this.transform.position = new Vector3(body.transform.position.x + 0.8f*body.transform.forward.x, 0.25f, body.transform.position.z + 0.8f*body.transform.forward.z);
 			this.transform.rotation = Quaternion.Euler(rotation);
 		}
