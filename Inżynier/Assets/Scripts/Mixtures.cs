@@ -29,6 +29,7 @@ public class Mixtures : MonoBehaviour {
 		set { oldScale = value;}
 	}
 
+	public Transform leftHand;
 	public Transform[] slots;
 
 	public SingleObject[] mixtures;
@@ -52,6 +53,7 @@ public class Mixtures : MonoBehaviour {
 	void Update () {
 		if (GameState.Instance.currentBackpackLayer == BackpackLayers.OBSERVE_ITEM) {
 			ChooseMixture(0);
+			DrinkMixture();
 		} else
 			UpdateMixturesCount ();
 
@@ -126,6 +128,16 @@ public class Mixtures : MonoBehaviour {
 		foreach (SingleObject so in mixtures) {
 			if(so != null)
 				so.isActive = false;
+		}
+	}
+
+	void DrinkMixture()
+	{
+		if(Input.GetKeyDown(KeyCode.E))
+		{
+			mixtures[currentActiveMixtureIndex].gameObject.transform.parent = leftHand;
+			mixtures[currentActiveMixtureIndex].gameObject.transform.localPosition = new Vector3(0.0125f, 0.0857f, 0.0564f);
+			GameState.Instance.currentBackpackLayer = BackpackLayers.DRINK;
 		}
 	}
 }

@@ -67,6 +67,10 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 		if (GameState.Instance.currentState == States.EQUIPMENT) {
+			if(GameState.Instance.currentBackpackLayer == BackpackLayers.DRINK)
+			{
+				StartCoroutine("Drink");
+			}
 			CloseEquipment();
 			//gameplay = false;
 		}
@@ -214,5 +218,14 @@ public class PlayerController : MonoBehaviour {
 			myAnimator.SetFloat("SpeedStrafe", 0.0f);
 			isWalking = false;
 		}
+	}
+
+	public IEnumerator Drink()
+	{
+		myAnimator.SetBool ("Drinking", true);
+		yield return new WaitForSeconds(5.5f);
+		myAnimator.SetBool ("Drinking", false);
+		GameState.Instance.currentBackpackLayer = BackpackLayers.OBSERVE_ITEM;
+		StopCoroutine("Drink");
 	}
 }

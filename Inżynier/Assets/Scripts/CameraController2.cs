@@ -44,6 +44,12 @@ public class CameraController2 : MonoBehaviour {
 			}
 		}
 		if (GameState.Instance.currentState == States.EQUIPMENT) {
+			if(GameState.Instance.currentBackpackLayer == BackpackLayers.DRINK)
+			{
+				myAnimator.ResetTrigger(equipmentHash);
+				myAnimator.SetTrigger(gameplayHash);
+				return;
+			}
 			myAnimator.ResetTrigger(gameplayHash);
 			myAnimator.SetTrigger(equipmentHash);
 			if(player.Hand.currentObject != null && Input.GetKeyDown(KeyCode.Space) && GameState.Instance.currentBackpackLayer == BackpackLayers.ITEM_CHOSEN)

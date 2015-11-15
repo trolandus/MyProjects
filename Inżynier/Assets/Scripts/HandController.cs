@@ -32,6 +32,10 @@ public class HandController : MonoBehaviour {
 		if (GameState.Instance.currentState == States.EQUIPMENT) {
 			myAnimator.enabled = true;
 			ManageEquipment ();
+			if(GameState.Instance.currentBackpackLayer == BackpackLayers.DRINK)
+			{
+				myAnimator.enabled = false;
+			}
 		}
 	}
 

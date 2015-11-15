@@ -1,20 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CameraController2.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Mixtures.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameState.cs" Line="9" Column="2" />
-      <File FileName="Assets\Scripts\PlayerController.cs" Line="88" Column="33" />
-      <File FileName="Assets\Scripts\HandController.cs" Line="74" Column="60" />
-      <File FileName="Assets\Scripts\Mixtures.cs" Line="61" Column="56" />
-      <File FileName="Assets\Scripts\Backpack.cs" Line="33" Column="1" />
-      <File FileName="Assets\Scripts\BottleWriting.cs" Line="21" Column="32" />
-      <File FileName="Assets\Scripts\CameraController2.cs" Line="61" Column="57" />
-      <File FileName="Assets\Scripts\Singleton.cs" Line="40" Column="22" />
-      <File FileName="Assets\Scripts\BodyCollision.cs" Line="70" Column="1" />
-      <File FileName="Assets\Scripts\Equipment.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AnimEvent.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SingleObject.cs" Line="23" Column="5" />
-      <File FileName="Assets\Scripts\InputManager.cs" Line="8" Column="47" />
+      <File FileName="Assets\Scripts\CameraController2.cs" Line="49" Column="38" />
+      <File FileName="Assets\Scripts\Mixtures.cs" Line="140" Column="67" />
+      <File FileName="Assets\Scripts\HandController.cs" Line="37" Column="32" />
+      <File FileName="Assets\Scripts\GameState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="223" Column="28" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

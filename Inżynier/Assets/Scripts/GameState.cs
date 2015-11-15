@@ -2,7 +2,7 @@
 using System.Collections;
 
 public enum States { GAMEPLAY, EQUIPMENT, PICKING_UP };
-public enum BackpackLayers { NONE, CHOOSE_ITEM, ITEM_CHOSEN, OBSERVE_ITEM, INTERRACT_SUBITEM, WRITE_ON_SUBITEM }
+public enum BackpackLayers { NONE, CHOOSE_ITEM, ITEM_CHOSEN, OBSERVE_ITEM, DRINK, WRITE_ON_SUBITEM }
 
 public class GameState : Singleton<GameState> {
 
