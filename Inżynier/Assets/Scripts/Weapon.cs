@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum WeaponType {MAIN, DISTANCE, MINOR};
+
 public class Weapon : MonoBehaviour {
 
 	public string weaponName;
@@ -9,6 +11,7 @@ public class Weapon : MonoBehaviour {
 
 	public UnityEngine.UI.Image buttonImage;
 	public bool isActive;
+	public WeaponType type;
 
 	private Quaternion weaponOriginalRotation;
 	private float weaponRotationX = 0;

@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
 	public GameObject pivot;
 	public GameObject body;
 	public GameObject head;
+	public Transform MainWeaponSlot;
 
 	private float horizontal;
 	private float vertical;
@@ -29,6 +30,10 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 movement;
 	private Animator myAnimator;
 	private HandController hand;
+	private Weapon mainWeapon;
+
+	private bool isWielding = false;
+
 	public bool isWalking;
 
 	public HandController Hand {
@@ -60,6 +65,7 @@ public class PlayerController : MonoBehaviour {
 			Movement();
 			WalkAnim ();
 			MouseControl();
+			HideWieldWeaponAnim();
 			if (!pickUp) {
 				OpenEquipment ();
 				if(currentWeapon != null)
@@ -82,6 +88,8 @@ public class PlayerController : MonoBehaviour {
 
 	void OpenEquipment(){
 		if (Input.GetKeyDown (KeyCode.I)) {
+			if(currentWeapon != null)
+				HideWeapon();
 			myAnimator.SetBool("Equipment", true);
 			GameState.Instance.currentBackpackLayer = BackpackLayers.CHOOSE_ITEM;
 			GameState.Instance.currentState = States.EQUIPMENT;
@@ -190,12 +198,53 @@ public class PlayerController : MonoBehaviour {
 		return s;
 	}
 
-	void WieldWeapon()
+	void HideWieldWeaponAnim()
 	{
-		currentWeapon = pickedUpWeapon;
-		pickedUpWeapon = null;
-		//currentWeapon.transform.rotation = currentWeapon.WeaponOriginalRotation;
-		currentWeapon.gameObject.GetComponent<Raycasting> ().enabled = false;
+		if (Input.GetKeyDown (KeyCode.F) && !isWielding) {
+			myAnimator.SetBool ("WeldWeapon", true);
+		} else if (Input.GetKeyDown (KeyCode.F) && isWielding) {
+			myAnimator.SetBool("HideWeapon", true);
+		}
+	}
+
+	public void WieldWeapon() //do odpalenia przy animacji (jako event)
+	{
+		myAnimator.SetBool ("WeldWeapon", false);
+		if (pickedUpWeapon != null) {
+			currentWeapon = pickedUpWeapon;
+			pickedUpWeapon = null;
+			currentWeapon.gameObject.GetComponent<Raycasting> ().enabled = false;
+
+			isWielding = true;
+		} else if (MainWeaponSlot.GetComponentInChildren<Weapon> () != null) {
+			currentWeapon = MainWeaponSlot.GetComponentInChildren<Weapon> ();
+			mainWeapon = null;
+
+			currentWeapon.transform.position = hand.weaponPivot.transform.position;
+			currentWeapon.transform.rotation = hand.weaponPivot.transform.rotation;
+			currentWeapon.transform.Rotate(new Vector3(100, 60, 0));
+			currentWeapon.transform.SetParent(hand.weaponPivot.transform);
+			currentWeapon.WeaponOriginalRotation = currentWeapon.transform.rotation;
+			
+			currentWeapon.isActive = false;
+			currentWeapon.GetComponent<BoxCollider>().enabled = false;
+
+			isWielding = true;
+		}
+	}
+
+	public void HideWeapon()
+	{
+		myAnimator.SetBool ("HideWeapon", false);
+
+		mainWeapon = currentWeapon;
+		currentWeapon = null;
+
+		mainWeapon.gameObject.transform.position = MainWeaponSlot.position;
+		mainWeapon.gameObject.transform.rotation = MainWeaponSlot.rotation;
+		mainWeapon.gameObject.transform.SetParent (MainWeaponSlot);
+
+		isWielding = false;
 	}
 
 	void TurnOffStrings()

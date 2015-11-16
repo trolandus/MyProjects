@@ -44,12 +44,11 @@ public class BodyCollision : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.E) && !player.pickUp) {
 			//weapon transformation
 			w.transform.position = hand.weaponPivot.transform.position;
-			//w.transform.Translate(new Vector3(0.25f, 0, 0));
 			w.transform.rotation = hand.weaponPivot.transform.rotation;
 			w.transform.Rotate(new Vector3(270, 0, 0));
 			w.transform.SetParent(hand.weaponPivot.transform);
 			w.WeaponOriginalRotation = w.transform.rotation;
-			///////////////////////
+
 			w.isActive = false;
 			w.GetComponent<BoxCollider>().enabled = false;
 
@@ -57,10 +56,6 @@ public class BodyCollision : MonoBehaviour {
 
 			hand.myAnimator.enabled = true;
 			hand.myAnimator.SetBool("Show Weapon", true);
-
-			//hand transformation
-			//hand.transform.Rotate(-90, 0, 0);
-			/////////////////////
 
 			player.pickUp = true;
 			player.pickedUpWeapon = w;

@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Equipment : MonoBehaviour {
 
-	public GameObject hand;
-
+	public HandController hand;
+	
 	private PlayerController player;
 
 	// Use this for initialization
