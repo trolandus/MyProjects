@@ -74,8 +74,8 @@ public class Mixtures : MonoBehaviour {
 			{
 				mixtures[i] = t.gameObject.GetComponentInChildren<SingleObject>();
 				//mixtures[currentActiveMixtureIndex].isActive = false;
-				i++;
 			}
+			i++;
 		}
 	}
 
@@ -135,9 +135,14 @@ public class Mixtures : MonoBehaviour {
 	{
 		if(Input.GetKeyDown(KeyCode.E))
 		{
-			mixtures[currentActiveMixtureIndex].gameObject.transform.parent = leftHand;
-			mixtures[currentActiveMixtureIndex].gameObject.transform.localPosition = new Vector3(0.0125f, 0.0857f, 0.0564f);
+			GameObject m = mixtures[currentActiveMixtureIndex].gameObject;
+			m.transform.parent = leftHand;
+			m.transform.localPosition = new Vector3(0.0125f, 0.0857f, 0.0564f);
+			mixtures[currentActiveMixtureIndex] = null;
+			Destroy(mixtures[currentActiveMixtureIndex]);
 			GameState.Instance.currentBackpackLayer = BackpackLayers.DRINK;
+			Destroy(m);
+			UpdateMixturesCount();
 		}
 	}
 }
