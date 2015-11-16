@@ -5,8 +5,9 @@ public class BodyCollision : MonoBehaviour {
 
 	private PlayerController player;
 	private HandController hand;
-	private Weapon collidingWeapon;
-	private bool weaponIsActive;
+	public Weapon collidingWeapon;
+	public bool weaponIsActive;
+	public bool weaponDetected;
 
 	// Use this for initialization
 	void Start () {
@@ -16,6 +17,12 @@ public class BodyCollision : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (collidingWeapon != null) {
+			if (collidingWeapon.GetComponent<Raycasting> ().itemDetected)
+				weaponDetected = true;
+			else
+				weaponDetected = false;
+		}
 		if (weaponIsActive)
 			PickUp (collidingWeapon);
 	}

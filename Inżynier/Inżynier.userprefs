@@ -2,14 +2,17 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Mixtures.cs" Line="142" Column="49" />
+      <File FileName="Assets\Scripts\BodyCollision.cs" Line="25" Column="4" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="154" Column="59" />
+      <File FileName="Assets\Scripts\Mixtures.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CameraController2.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\HandController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameState.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerController.cs" Line="92" Column="5" />
       <File FileName="Assets\Scripts\Weapon.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Equipment.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BodyCollision.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Backpack.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\HeadController.cs" Line="13" Column="17" />
+      <File FileName="Assets\Scripts\Raycasting.cs" Line="36" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

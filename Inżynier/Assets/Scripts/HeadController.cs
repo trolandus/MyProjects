@@ -5,20 +5,19 @@ public class HeadController : MonoBehaviour {
 
 	public GameObject defaultLookAt;
 	public GameObject targetItem;
-	public bool itemDetected;
+	public BodyCollision body;
 
 	public float fieldOfViewAngle = 60.0f;
-	
+
 	// Use this for initialization
 	void Start () {
-		itemDetected = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//Debug.Log (this.transform.rotation.x);
 
-		if (itemDetected) {
+		if (body.weaponDetected) {
 			//if (this.transform.rotation.y > 0.25f)
 			FollowItem (this.targetItem);
 		} else {

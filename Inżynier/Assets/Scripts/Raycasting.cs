@@ -5,6 +5,7 @@ public class Raycasting : MonoBehaviour {
 
 	public GameObject target;
 	public float range;
+	public bool itemDetected = false;
 
 	private HeadController headController;
 
@@ -26,13 +27,13 @@ public class Raycasting : MonoBehaviour {
 		if (Physics.Raycast (playerDetect, out hit, range)) {
 			if(hit.collider.tag == "Player")
 			{
-				headController.itemDetected = true;
+				itemDetected = true;
 				headController.targetItem = this.gameObject;
 			}
 		}
 		else
 		{
-			headController.itemDetected = false;
+			itemDetected = false;
 		}
 	}
 }

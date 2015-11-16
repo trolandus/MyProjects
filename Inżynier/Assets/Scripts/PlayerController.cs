@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour {
 		w.transform.localRotation = w.WeaponOriginalRotation * xQuaternion * yQuaternion;
 
 		if(Input.GetKeyDown (KeyCode.F)){
-			head.GetComponent<HeadController>().itemDetected = false;
+			head.GetComponent<HeadController>().body.weaponDetected = false;
 			hand.myAnimator.SetBool("Show Weapon", false);
 			hand.myAnimator.enabled = false;
 			GameState.Instance.currentState = States.GAMEPLAY;
@@ -197,6 +197,9 @@ public class PlayerController : MonoBehaviour {
 		}
 		return s;
 	}
+
+	//przełączanie broni 1,2,3
+	//po przełączeniu ustawienie na current i od razu po tym WieldWeapon z rozróżnieniem animacji (switch) (ewentualnie podpiąć przejścia pod inta)
 
 	void HideWieldWeaponAnim()
 	{
