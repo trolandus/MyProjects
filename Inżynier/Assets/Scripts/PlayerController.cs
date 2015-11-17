@@ -227,10 +227,10 @@ public class PlayerController : MonoBehaviour {
 			switch(activeWeapon)
 			{
 			case 1:
-				currentWeapon = MainWeaponSlot.GetComponentInChildren<Weapon> ();
+				currentWeapon = MainWeaponSlot.GetComponentInChildren<MainWeapon> ();
 				break;
 			case 2:
-				currentWeapon = DistanceWeaponSlot.GetComponentInChildren<Weapon>();
+				currentWeapon = DistanceWeaponSlot.GetComponentInChildren<DistanceWeapon>();
 				break;
 			}
 			mainWeapon = null;
@@ -350,6 +350,11 @@ public class PlayerController : MonoBehaviour {
 			}
 			//WieldWeapon();
 		}
+	}
+
+	public Animator GetMyAnimator()
+	{
+		return myAnimator;
 	}
 
 }

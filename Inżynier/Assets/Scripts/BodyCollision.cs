@@ -49,6 +49,19 @@ public class BodyCollision : MonoBehaviour {
 
 	void PickUp(Weapon w){
 		if (Input.GetKeyDown (KeyCode.E) && !player.pickUp) {
+			switch(w.type)
+			{
+			case WeaponType.MAIN:
+				player.activeWeapon = 1;
+				break;
+			case WeaponType.DISTANCE:
+				player.activeWeapon = 2;
+				break;
+			case WeaponType.MINOR:
+				player.activeWeapon = 3;
+				break;
+			}
+			player.GetMyAnimator().SetInteger("WeaponType", player.activeWeapon);
 			if(player.currentWeapon !=  null)
 				player.HideWeapon();
 			//weapon transformation
