@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour {
 	public GameObject body;
 	public GameObject head;
 	public Transform MainWeaponSlot;
+	public Transform DistanceWeaponSlot;
+	public Transform MinorWeaponSlot;
 
 	private float horizontal;
 	private float vertical;
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour {
 	private Animator myAnimator;
 	private HandController hand;
 	private Weapon mainWeapon;
+	public int activeWeapon;
 
 	private bool isWielding = false;
 
@@ -66,6 +69,7 @@ public class PlayerController : MonoBehaviour {
 			WalkAnim ();
 			MouseControl();
 			HideWieldWeaponAnim();
+			SetActiveWeapon();
 			if (!pickUp) {
 				OpenEquipment ();
 				if(currentWeapon != null)
@@ -219,18 +223,31 @@ public class PlayerController : MonoBehaviour {
 			currentWeapon.gameObject.GetComponent<Raycasting> ().enabled = false;
 
 			isWielding = true;
-		} else if (MainWeaponSlot.GetComponentInChildren<Weapon> () != null) {
-			currentWeapon = MainWeaponSlot.GetComponentInChildren<Weapon> ();
+		} else if (activeWeapon != 0/*MainWeaponSlot.GetComponentInChildren<Weapon> () != null*/) {
+			switch(activeWeapon)
+			{
+			case 1:
+				currentWeapon = MainWeaponSlot.GetComponentInChildren<Weapon> ();
+				break;
+			case 2:
+				currentWeapon = DistanceWeaponSlot.GetComponentInChildren<Weapon>();
+				break;
+			}
 			mainWeapon = null;
 
-			currentWeapon.transform.position = hand.weaponPivot.transform.position;
-			currentWeapon.transform.rotation = hand.weaponPivot.transform.rotation;
-			currentWeapon.transform.Rotate(new Vector3(100, 60, 0));
-			currentWeapon.transform.SetParent(hand.weaponPivot.transform);
+			///////////////////
+//			currentWeapon.transform.position = hand.weaponPivot.transform.position;
+//			currentWeapon.transform.rotation = hand.weaponPivot.transform.rotation;
+//			currentWeapon.transform.Rotate(new Vector3(100, 60, 0));
+//			currentWeapon.transform.SetParent(hand.weaponPivot.transform);
+//			currentWeapon.WeaponOriginalRotation = currentWeapon.transform.rotation;
+//			
+//			currentWeapon.isActive = false;
+//			currentWeapon.GetComponent<BoxCollider>().enabled = false;
+			///////////////////
+			//wstawić 
+			currentWeapon.WieldWeapon();
 			currentWeapon.WeaponOriginalRotation = currentWeapon.transform.rotation;
-			
-			currentWeapon.isActive = false;
-			currentWeapon.GetComponent<BoxCollider>().enabled = false;
 
 			isWielding = true;
 		}
@@ -240,12 +257,28 @@ public class PlayerController : MonoBehaviour {
 	{
 		myAnimator.SetBool ("HideWeapon", false);
 
+		Transform targetSlot = null;
+
+		switch (currentWeapon.type) {
+		case WeaponType.MAIN:
+			targetSlot = MainWeaponSlot;
+			break;
+		case WeaponType.DISTANCE:
+			targetSlot = DistanceWeaponSlot;
+			break;
+		case WeaponType.MINOR:
+			targetSlot = MinorWeaponSlot;
+			break;
+		}
+
 		mainWeapon = currentWeapon;
 		currentWeapon = null;
 
-		mainWeapon.gameObject.transform.position = MainWeaponSlot.position;
-		mainWeapon.gameObject.transform.rotation = MainWeaponSlot.rotation;
-		mainWeapon.gameObject.transform.SetParent (MainWeaponSlot);
+		mainWeapon.gameObject.transform.position = targetSlot.position;
+		mainWeapon.gameObject.transform.rotation = targetSlot.rotation;
+		mainWeapon.gameObject.transform.SetParent (targetSlot);
+
+		//wstawić currentWeapon.HideWeapon();
 
 		isWielding = false;
 	}
@@ -280,4 +313,43 @@ public class PlayerController : MonoBehaviour {
 		GameState.Instance.currentBackpackLayer = BackpackLayers.OBSERVE_ITEM;
 		StopCoroutine("Drink");
 	}
+
+	void SetActiveWeapon()
+	{
+		if(Input.GetKeyDown(KeyCode.Alpha1) && MainWeaponSlot.GetComponentInChildren<Weapon> () != null)
+		{
+			myAnimator.SetInteger("WeaponType", 1);
+			myAnimator.SetBool("WeldWeapon", true);
+			if(activeWeapon != 1)
+			{
+				if(currentWeapon != null)
+					HideWeapon();
+				activeWeapon = 1;
+			}
+			//WieldWeapon();
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha2) && DistanceWeaponSlot.GetComponentInChildren<Weapon>() != null) {
+			myAnimator.SetInteger ("WeaponType", 2);
+			myAnimator.SetBool("WeldWeapon", true);
+			if(activeWeapon != 2)
+			{
+				if(currentWeapon != null)
+					HideWeapon();
+				activeWeapon = 2;
+			}
+			//WieldWeapon();
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha3) && MinorWeaponSlot.GetComponentInChildren<Weapon> () != null) {
+			myAnimator.SetInteger ("WeaponType", 3);
+			myAnimator.SetBool("WeldWeapon", true);
+			if(activeWeapon != 3)
+			{
+				if(currentWeapon != null)
+					HideWeapon();
+				activeWeapon = 3;
+			}
+			//WieldWeapon();
+		}
+	}
+
 }

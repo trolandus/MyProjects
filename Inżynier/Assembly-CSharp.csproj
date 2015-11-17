@@ -51,11 +51,13 @@
      <Compile Include="Assets\Scripts\BodyCollision.cs" />
      <Compile Include="Assets\Scripts\BottleWriting.cs" />
      <Compile Include="Assets\Scripts\CameraController2.cs" />
+     <Compile Include="Assets\Scripts\DistanceWeapon.cs" />
      <Compile Include="Assets\Scripts\Equipment.cs" />
      <Compile Include="Assets\Scripts\GameState.cs" />
      <Compile Include="Assets\Scripts\HandController.cs" />
      <Compile Include="Assets\Scripts\HeadController.cs" />
      <Compile Include="Assets\Scripts\InputManager.cs" />
+     <Compile Include="Assets\Scripts\MainWeapon.cs" />
      <Compile Include="Assets\Scripts\Mixtures.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Raycasting.cs" />

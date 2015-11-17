@@ -8,14 +8,15 @@ public class Weapon : MonoBehaviour {
 	public string weaponName;
 	public int damage;
 	public WeaponElement[] elements;
+	public HandController hand;
 
 	public UnityEngine.UI.Image buttonImage;
 	public bool isActive;
 	public WeaponType type;
 
-	private Quaternion weaponOriginalRotation;
-	private float weaponRotationX = 0;
-	private float weaponRotationY = 0;
+	protected Quaternion weaponOriginalRotation;
+	protected float weaponRotationX = 0;
+	protected float weaponRotationY = 0;
 
 	public Quaternion WeaponOriginalRotation {
 		set {
@@ -45,17 +46,27 @@ public class Weapon : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 		buttonImage.enabled = false;
 		isActive = false;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public void Update () {
 		if (isActive) {
 			buttonImage.enabled = true;
 		}
 		else
 			buttonImage.enabled = false;
+	}
+
+	public virtual void WieldWeapon()
+	{
+		return;
+	}
+
+	public virtual void HideWeapon()
+	{
+		return;
 	}
 }
