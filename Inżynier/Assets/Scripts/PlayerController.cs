@@ -232,6 +232,9 @@ public class PlayerController : MonoBehaviour {
 			case 2:
 				currentWeapon = DistanceWeaponSlot.GetComponentInChildren<DistanceWeapon>();
 				break;
+			case 3:
+				currentWeapon = MinorWeaponSlot.GetComponentInChildren<MinorWeapon>();
+				break;
 			}
 			mainWeapon = null;
 
