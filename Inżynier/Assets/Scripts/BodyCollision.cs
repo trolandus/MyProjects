@@ -49,6 +49,8 @@ public class BodyCollision : MonoBehaviour {
 
 	void PickUp(Weapon w){
 		if (Input.GetKeyDown (KeyCode.E) && !player.pickUp) {
+			if(player.currentWeapon !=  null)
+				player.HideWeapon();
 			//weapon transformation
 			w.transform.position = hand.weaponPivot.transform.position;
 			w.transform.rotation = hand.weaponPivot.transform.rotation;
