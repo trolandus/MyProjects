@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Mixtures : MonoBehaviour {
 
@@ -36,7 +37,8 @@ public class Mixtures : MonoBehaviour {
 	public bool start;
 
 	public int currentActiveMixtureIndex = 0;
-	private int i;
+	private int listIndex;
+	private List<int> mixturesIndices = new List<int>();
 
 	// Use this for initialization
 	void Start () {
@@ -67,12 +69,14 @@ public class Mixtures : MonoBehaviour {
 
 	void UpdateMixturesCount()
 	{
-		i = 0;
+		int i = 0;
+		mixturesIndices.Clear ();
 		
 		foreach (Transform t in slots) {
 			if(t.gameObject.GetComponentInChildren<SingleObject>() != null)
 			{
 				mixtures[i] = t.gameObject.GetComponentInChildren<SingleObject>();
+				mixturesIndices.Add(i);
 				//mixtures[currentActiveMixtureIndex].isActive = false;
 			}
 			i++;
@@ -83,10 +87,12 @@ public class Mixtures : MonoBehaviour {
 	{
 		if (start) {
 			currentActiveMixtureIndex = startMixtureIndex;
+			listIndex = 0;
 			mixtures [currentActiveMixtureIndex].enabled = true;
 			mixtures [currentActiveMixtureIndex].isActive = true;
 		}
-		if (Input.GetKeyDown(KeyCode.UpArrow) && ++currentActiveMixtureIndex < i){
+		if (Input.GetKeyDown(KeyCode.UpArrow) && ++listIndex < mixturesIndices.Count){
+			currentActiveMixtureIndex = mixturesIndices[listIndex];
 			if(mixtures[currentActiveMixtureIndex] != null)
 			{
 				mixtures[currentActiveMixtureIndex].enabled = true;
@@ -94,17 +100,18 @@ public class Mixtures : MonoBehaviour {
 			}
 			DisableMixtures();
 		}
-		if (Input.GetKeyDown (KeyCode.DownArrow) && --currentActiveMixtureIndex >= 0) {
+		if (Input.GetKeyDown (KeyCode.DownArrow) && --listIndex >= 0) {
+			currentActiveMixtureIndex = mixturesIndices[listIndex];
 			if (mixtures [currentActiveMixtureIndex] != null) {
 				mixtures [currentActiveMixtureIndex].enabled = true;
 				mixtures [currentActiveMixtureIndex].isActive = true;
 			}
 			DisableMixtures ();
 		}
-		if (currentActiveMixtureIndex < 0)
-			currentActiveMixtureIndex = 0;
-		if (currentActiveMixtureIndex >= i)
-			currentActiveMixtureIndex = i - 1;
+		//if (currentActiveMixtureIndex < 0)
+		//	currentActiveMixtureIndex = 0;
+		//if (currentActiveMixtureIndex >= i)
+		//	currentActiveMixtureIndex = i - 1;
 
 		if (Input.GetKeyDown (KeyCode.Space))
 			GameState.Instance.currentBackpackLayer = BackpackLayers.WRITE_ON_SUBITEM;
