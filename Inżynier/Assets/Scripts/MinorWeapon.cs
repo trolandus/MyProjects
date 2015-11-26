@@ -25,7 +25,7 @@ public class MinorWeapon : Weapon {
 		this.GetComponent<BoxCollider>().enabled = false;
 	}
 
-	public override void HideWeapon()
+	public override void HideWeapon ()
 	{
 		base.HideWeapon ();
 	}

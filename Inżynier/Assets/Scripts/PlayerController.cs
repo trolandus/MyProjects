@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour {
 			if (!pickUp) {
 				OpenEquipment ();
 				if(currentWeapon != null)
-					TurnOffStrings();
+					TurnOffStrings(currentWeapon);
 			}
 		}
 		if (GameState.Instance.currentState == States.EQUIPMENT) {
@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void ObserveItem(Weapon w){
 		this.myAnimator.enabled = false;
-		Debug.Log (CompareWeapons (w, currentWeapon));
+		Debug.Log (CompareWeapons (w));
 
 		w.WeaponRotationX += Input.GetAxis ("Mouse X") * turningSpeed;
 		w.WeaponRotationY += Input.GetAxis ("Mouse Y") * turningSpeed;
@@ -161,7 +161,32 @@ public class PlayerController : MonoBehaviour {
 			GameState.Instance.currentState = States.GAMEPLAY;
 			pickUp = false;
 			//gameplay = true;
+			switch(w.type)
+			{
+			case WeaponType.MAIN:
+				DropComparedWeapon(MainWeaponSlot.GetComponentInChildren<Weapon>());
+				break;
+			case WeaponType.DISTANCE:
+				DropComparedWeapon(DistanceWeaponSlot.GetComponentInChildren<Weapon>());
+				break;
+			case WeaponType.MINOR:
+				DropComparedWeapon(MinorWeaponSlot.GetComponentInChildren<Weapon>());
+				break;
+			}
 			WieldWeapon();
+			this.myAnimator.enabled = true;
+		}
+
+		if (Input.GetKeyDown (KeyCode.G)) {
+			head.GetComponent<HeadController>().body.weaponDetected = false;
+			hand.myAnimator.SetBool("Show Weapon", false);
+			hand.myAnimator.enabled = false;
+			GameState.Instance.currentState = States.GAMEPLAY;
+			pickUp = false;
+
+			TurnOffStrings(w);
+			DropComparedWeapon(w);
+
 			this.myAnimator.enabled = true;
 		}
 	}
@@ -176,34 +201,24 @@ public class PlayerController : MonoBehaviour {
 	}
 
 //zrobić komparator dla trzech sztuk broni
-	public string CompareWeapons(Weapon weapon, Weapon currentWeapon)
+	public string CompareWeapons(Weapon weapon)
 	{
 		string s = "";
-		if (currentWeapon != null) {
 
-			if (currentWeapon.damage > weapon.damage) {
-				s = weapon.name + " deals less damage than " + currentWeapon.name;
-			} else if (currentWeapon.damage == weapon.damage) {
-				s = weapon.name + " deals same amount of damage as " + currentWeapon.name;
-			} else if (currentWeapon.damage < weapon.damage) {
-				s = weapon.name + " deals more damage than " + currentWeapon.name;
-			}
-		} else {
-			s = "You currently have " + "0" + " weapons. Take it.";
-			foreach(WeaponElement e in weapon.elements)
-			{
-				ParticleSystem ps = e.gameObject.GetComponent<ParticleSystem>();
-				ps.startColor = Color.blue;
-				ps.Emit(1);
-				e.statText.color = Color.blue;
-				e.statText.enabled = true;
-			}
+		switch (weapon.type) {
+		case WeaponType.MAIN:
+			s = weapon.Compare(MainWeaponSlot.GetComponentInChildren<Weapon>());
+			break;
+		case WeaponType.DISTANCE:
+			s = weapon.Compare(DistanceWeaponSlot.GetComponentInChildren<Weapon>());
+			break;
+		case WeaponType.MINOR:
+			s = weapon.Compare(MinorWeaponSlot.GetComponentInChildren<Weapon>());
+			break;
 		}
+
 		return s;
 	}
-
-	//przełączanie broni 1,2,3
-	//po przełączeniu ustawienie na current i od razu po tym WieldWeapon z rozróżnieniem animacji (switch) (ewentualnie podpiąć przejścia pod inta)
 
 	void HideWieldWeaponAnim()
 	{
@@ -211,6 +226,19 @@ public class PlayerController : MonoBehaviour {
 			myAnimator.SetBool ("WeldWeapon", true);
 		} else if (Input.GetKeyDown (KeyCode.F) && isWielding) {
 			myAnimator.SetBool("HideWeapon", true);
+		}
+	}
+
+	public void DropComparedWeapon(Weapon weapon)
+	{
+		if (weapon != null) {
+			weapon.transform.SetParent (null);
+			weapon.transform.position = body.transform.position;
+			weapon.transform.rotation = Quaternion.Euler (0, 0, 270);
+
+			weapon.isActive = true;
+			weapon.GetComponent<Raycasting>().enabled = true;
+			weapon.GetComponent<BoxCollider>().enabled = true;
 		}
 	}
 
@@ -286,9 +314,9 @@ public class PlayerController : MonoBehaviour {
 		isWielding = false;
 	}
 
-	void TurnOffStrings()
+	void TurnOffStrings(Weapon weapon)
 	{
-		foreach(WeaponElement e in currentWeapon.elements)
+		foreach(WeaponElement e in weapon.elements)
 		{
 			ParticleSystem ps = e.gameObject.GetComponent<ParticleSystem>();
 			e.statText.enabled = false;
@@ -311,7 +339,7 @@ public class PlayerController : MonoBehaviour {
 	public IEnumerator Drink()
 	{
 		myAnimator.SetBool ("Drinking", true);
-		yield return new WaitForSeconds(5.5f);
+		yield return new WaitForSeconds(4.5f);
 		myAnimator.SetBool ("Drinking", false);
 		GameState.Instance.currentBackpackLayer = BackpackLayers.OBSERVE_ITEM;
 		StopCoroutine("Drink");

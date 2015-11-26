@@ -49,6 +49,10 @@ public class Weapon : MonoBehaviour {
 	public void Start () {
 		buttonImage.enabled = false;
 		isActive = false;
+
+		foreach (WeaponElement e in this.elements) {
+			ParticleSystem ps = e.gameObject.GetComponent<ParticleSystem> ();
+		}
 	}
 	
 	// Update is called once per frame
@@ -68,5 +72,53 @@ public class Weapon : MonoBehaviour {
 	public virtual void HideWeapon()
 	{
 		return;
+	}
+
+	public string Compare(Weapon playerWeapon)
+	{
+		string output;
+		Color col;
+		int textToChange = -1;
+
+		if (playerWeapon != null) {
+			if(this.damage > playerWeapon.damage)
+			{
+				col = Color.green;
+				textToChange = 0;
+			}
+			else if(this.damage == playerWeapon.damage)
+			{
+				col = Color.blue;
+				textToChange = 0;
+			}
+			else
+			{
+				col = Color.red;
+				textToChange = 0;
+			}
+			output = "Comparing weapons";
+		} else {
+			col = Color.blue;
+			output = "";
+		}
+
+		foreach (WeaponElement e in this.elements) {
+			ParticleSystem ps = e.gameObject.GetComponent<ParticleSystem>();
+
+			if(textToChange != -1)
+			{
+				e.SetColor(textToChange, col);
+			}
+			else
+			{
+				ps.startColor = col;
+				e.statText.color = col;
+				e.statText.enabled = true;
+			}
+
+			ps.Emit(1);
+		}
+
+		return output;
 	}
 }
