@@ -37,7 +37,7 @@ public class Mixtures : MonoBehaviour {
 	public bool start;
 
 	public int currentActiveMixtureIndex = 0;
-	private int listIndex;
+	public int listIndex;
 	private List<int> mixturesIndices = new List<int>();
 
 	// Use this for initialization
@@ -81,6 +81,9 @@ public class Mixtures : MonoBehaviour {
 			}
 			i++;
 		}
+
+		if (mixturesIndices.Count == 0)
+			currentActiveMixtureIndex = -1;
 	}
 
 	void ChooseMixture(int startMixtureIndex)
@@ -91,7 +94,9 @@ public class Mixtures : MonoBehaviour {
 			mixtures [currentActiveMixtureIndex].enabled = true;
 			mixtures [currentActiveMixtureIndex].isActive = true;
 		}
-		if (Input.GetKeyDown(KeyCode.UpArrow) && ++listIndex < mixturesIndices.Count){
+		if (Input.GetKeyDown(KeyCode.UpArrow)){
+			if(++listIndex >= mixturesIndices.Count)
+				listIndex = mixturesIndices.Count - 1;
 			currentActiveMixtureIndex = mixturesIndices[listIndex];
 			if(mixtures[currentActiveMixtureIndex] != null)
 			{
@@ -100,7 +105,9 @@ public class Mixtures : MonoBehaviour {
 			}
 			DisableMixtures();
 		}
-		if (Input.GetKeyDown (KeyCode.DownArrow) && --listIndex >= 0) {
+		if (Input.GetKeyDown (KeyCode.DownArrow)) {
+			if(--listIndex < 0)
+				listIndex = 0;
 			currentActiveMixtureIndex = mixturesIndices[listIndex];
 			if (mixtures [currentActiveMixtureIndex] != null) {
 				mixtures [currentActiveMixtureIndex].enabled = true;
@@ -147,6 +154,9 @@ public class Mixtures : MonoBehaviour {
 			m.transform.localPosition = new Vector3(0.0125f, 0.0857f, 0.0564f);
 			mixtures[currentActiveMixtureIndex] = null;
 			Destroy(mixtures[currentActiveMixtureIndex]);
+			mixturesIndices.Remove(currentActiveMixtureIndex);
+			if(mixturesIndices.Count != 0)
+				currentActiveMixtureIndex = mixturesIndices[0];
 			GameState.Instance.currentBackpackLayer = BackpackLayers.DRINK;
 			Destroy(m);
 			UpdateMixturesCount();
