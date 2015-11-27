@@ -15,6 +15,7 @@ public class CameraController2 : MonoBehaviour {
 	private int idleHash = Animator.StringToHash("Base Layer.Idle");
 	private int pickUpHash = Animator.StringToHash("PickingUp");
 	private int pickUpIdle = Animator.StringToHash("Base Layer.PickingUpIdle");
+	private int compareIdle = Animator.StringToHash("Base Layer.CompareIdle");
 
 	// Use this for initialization
 	void Start () {
@@ -32,7 +33,8 @@ public class CameraController2 : MonoBehaviour {
 				myAnimator.ResetTrigger(equipmentHash);
 				myAnimator.SetTrigger(gameplayHash);
 			}
-			if(stateInfo.nameHash == pickUpIdle)
+			if(stateInfo.nameHash == pickUpIdle ||
+			   stateInfo.nameHash == compareIdle)
 			{
 				myAnimator.ResetTrigger(pickUpHash);
 				myAnimator.SetTrigger(gameplayHash);
@@ -70,6 +72,14 @@ public class CameraController2 : MonoBehaviour {
 		if (player.pickUp) {
 			myAnimator.ResetTrigger(gameplayHash);
 			myAnimator.SetTrigger(pickUpHash);
+			if(player.isComparing)
+			{
+				myAnimator.SetBool("Comparing", true);
+			}
+			else
+			{
+				myAnimator.SetBool("Comparing", false);
+			}
 		}
 	}
 

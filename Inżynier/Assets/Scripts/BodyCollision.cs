@@ -4,6 +4,7 @@ using System.Collections;
 public class BodyCollision : MonoBehaviour {
 
 	private PlayerController player;
+	private LeftHandController leftHand;
 	private HandController hand;
 	public Weapon collidingWeapon;
 	public bool weaponIsActive;
@@ -12,6 +13,7 @@ public class BodyCollision : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		player = GetComponentInParent<PlayerController> ();
+		leftHand = GetComponentInChildren<LeftHandController> ();
 		hand = GetComponentInChildren<HandController> ();
 	}
 	
@@ -23,8 +25,9 @@ public class BodyCollision : MonoBehaviour {
 			else
 				weaponDetected = false;
 		}
-		if (weaponIsActive)
+		if (weaponIsActive) {
 			PickUp (collidingWeapon);
+		}
 	}
 
 	void OnTriggerEnter(Collider col)

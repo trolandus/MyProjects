@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\HandController.cs" />
      <Compile Include="Assets\Scripts\HeadController.cs" />
      <Compile Include="Assets\Scripts\InputManager.cs" />
+     <Compile Include="Assets\Scripts\LeftHandController.cs" />
      <Compile Include="Assets\Scripts\MainWeapon.cs" />
      <Compile Include="Assets\Scripts\MinorWeapon.cs" />
      <Compile Include="Assets\Scripts\Mixtures.cs" />

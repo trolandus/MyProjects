@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour {
 	public Transform DistanceWeaponSlot;
 	public Transform MinorWeaponSlot;
 
+	public bool isComparing = false;
+
 	private float horizontal;
 	private float vertical;
 
@@ -155,6 +157,7 @@ public class PlayerController : MonoBehaviour {
 		w.transform.localRotation = w.WeaponOriginalRotation * xQuaternion * yQuaternion;
 
 		if(Input.GetKeyDown (KeyCode.F)){
+			isComparing = false;
 			head.GetComponent<HeadController>().body.weaponDetected = false;
 			hand.myAnimator.SetBool("Show Weapon", false);
 			hand.myAnimator.enabled = false;
@@ -186,8 +189,14 @@ public class PlayerController : MonoBehaviour {
 
 			TurnOffStrings(w);
 			DropComparedWeapon(w);
+			pickedUpWeapon = null;
+
+			HideWeapon(MainWeaponSlot.GetComponentInChildren<Weapon>());
+			HideWeapon(DistanceWeaponSlot.GetComponentInChildren<Weapon>());
+			HideWeapon(MinorWeaponSlot.GetComponentInChildren<Weapon>());
 
 			this.myAnimator.enabled = true;
+			isComparing = false;
 		}
 	}
 
@@ -207,13 +216,13 @@ public class PlayerController : MonoBehaviour {
 
 		switch (weapon.type) {
 		case WeaponType.MAIN:
-			s = weapon.Compare(MainWeaponSlot.GetComponentInChildren<Weapon>());
+			s = weapon.Compare(ref isComparing, MainWeaponSlot.GetComponentInChildren<Weapon>());
 			break;
 		case WeaponType.DISTANCE:
-			s = weapon.Compare(DistanceWeaponSlot.GetComponentInChildren<Weapon>());
+			s = weapon.Compare(ref isComparing, DistanceWeaponSlot.GetComponentInChildren<Weapon>());
 			break;
 		case WeaponType.MINOR:
-			s = weapon.Compare(MinorWeaponSlot.GetComponentInChildren<Weapon>());
+			s = weapon.Compare(ref isComparing, MinorWeaponSlot.GetComponentInChildren<Weapon>());
 			break;
 		}
 
@@ -239,6 +248,9 @@ public class PlayerController : MonoBehaviour {
 			weapon.isActive = true;
 			weapon.GetComponent<Raycasting>().enabled = true;
 			weapon.GetComponent<BoxCollider>().enabled = true;
+
+			//pickedUpWeapon = null;
+			TurnOffStrings(weapon);
 		}
 	}
 
@@ -312,6 +324,32 @@ public class PlayerController : MonoBehaviour {
 		//wstawić currentWeapon.HideWeapon();
 
 		isWielding = false;
+	}
+
+	void HideWeapon(Weapon targetWeapon)
+	{
+		if (targetWeapon != null) {
+			Transform targetSlot = null;
+		
+			switch (targetWeapon.type) {
+			case WeaponType.MAIN:
+				targetSlot = MainWeaponSlot;
+				break;
+			case WeaponType.DISTANCE:
+				targetSlot = DistanceWeaponSlot;
+				break;
+			case WeaponType.MINOR:
+				targetSlot = MinorWeaponSlot;
+				break;
+			}
+
+			targetWeapon.gameObject.transform.position = targetSlot.position;
+			targetWeapon.gameObject.transform.rotation = targetSlot.rotation;
+			targetWeapon.gameObject.transform.SetParent (targetSlot);
+
+			TurnOffStrings(targetWeapon);
+		}
+
 	}
 
 	void TurnOffStrings(Weapon weapon)
