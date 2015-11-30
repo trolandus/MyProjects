@@ -5,6 +5,7 @@ public class CameraController2 : MonoBehaviour {
 
 	public PlayerController player;
 	public Mixtures mixtures;
+	public Scrolls scrolls;
 
 	private GameObject pivotpoint;
 	private Animator myAnimator;
@@ -58,9 +59,13 @@ public class CameraController2 : MonoBehaviour {
 			{
 				myAnimator.SetBool("ShowCloser", true);
 				GameState.Instance.currentBackpackLayer = BackpackLayers.OBSERVE_ITEM;
-				mixtures.start = true;
+				if(player.Hand.currentObject.GetComponent<Mixtures>())
+					mixtures.start = true;
+				else
+					scrolls.start = true;
 			}
-			if(InputManager.Instance.lastKeyPressed == KeyCode.Escape && GameState.Instance.currentBackpackLayer == BackpackLayers.OBSERVE_ITEM)
+			if(InputManager.Instance.lastKeyPressed == KeyCode.Escape && (GameState.Instance.currentBackpackLayer == BackpackLayers.OBSERVE_ITEM ||
+			                                                              GameState.Instance.currentBackpackLayer == BackpackLayers.ITEM_CHOSEN))
 			{
 				player.Hand.PutBack();
 				GameState.Instance.currentBackpackLayer = BackpackLayers.CHOOSE_ITEM;

@@ -9,6 +9,9 @@ public class HandController : MonoBehaviour {
 	public Transform currentObject;
 	public Animator myAnimator;
 
+	public Mixtures mixtures;
+	public Scrolls scrolls;
+
 	private Ray ray;
 	private RaycastHit hit;
 	private Vector3 oldPosition;
@@ -31,7 +34,8 @@ public class HandController : MonoBehaviour {
 		}
 		if (GameState.Instance.currentState == States.EQUIPMENT) {
 			myAnimator.enabled = true;
-			ManageEquipment ();
+			if(GameState.Instance.currentBackpackLayer != BackpackLayers.ITEM_CHOSEN)
+				ManageEquipment ();
 			if(GameState.Instance.currentBackpackLayer == BackpackLayers.DRINK)
 			{
 				myAnimator.enabled = false;
@@ -54,7 +58,7 @@ public class HandController : MonoBehaviour {
 		if (Physics.Raycast (ray, out hit)) {
 			if (hit.collider.tag == "BackpackItem") {
 				currentObject = hit.collider.transform;
-				currentObject.localRotation = Quaternion.Euler(new Vector3(351.0f, 346.0f, 0.0f));
+				//currentObject.localRotation = Quaternion.Euler(new Vector3(351.0f, 346.0f, 0.0f));
 			}
 		} else
 			if(!isGrabing)
@@ -65,7 +69,13 @@ public class HandController : MonoBehaviour {
 		if (obj != null) {
 			myAnimator.SetBool ("PointAt", true);
 			if(Input.GetMouseButton(0))
+			{
+				if(currentObject.GetComponent<Mixtures>())
+					scrolls.enabled = false;
+				else
+					mixtures.enabled = false;
 				GrabItem();
+			}
 		}
 		else
 			if(!isGrabing)
@@ -89,6 +99,14 @@ public class HandController : MonoBehaviour {
 				currentObject.transform.localPosition = currentObject.GetComponent<Mixtures> ().OldPosition;
 				currentObject.transform.localRotation = currentObject.GetComponent<Mixtures> ().OldRotation;
 				currentObject.transform.localScale = currentObject.GetComponent<Mixtures>().OldScale;
+				scrolls.enabled = true;
+			}
+			if(currentObject.GetComponent<Scrolls>()){
+				currentObject.transform.parent = currentObject.GetComponent<Scrolls> ().OldParent;
+				currentObject.transform.localPosition = currentObject.GetComponent<Scrolls> ().OldPosition;
+				currentObject.transform.localRotation = currentObject.GetComponent<Scrolls> ().OldRotation;
+				currentObject.transform.localScale = currentObject.GetComponent<Scrolls>().OldScale;
+				mixtures.enabled = true;
 			}
 		}
 	}

@@ -18,7 +18,10 @@ public class AnimEvent : MonoBehaviour {
 	public void GrabObject()
 	{
 		hand.currentObject.parent = hand.transform;
-		hand.currentObject.localPosition = hand.weaponPivot.transform.localPosition;
+		if (hand.currentObject.GetComponent<Scrolls> ())
+			hand.currentObject.localPosition = hand.weaponPivot.transform.localPosition + new Vector3 (0, 0.02f, 0.015f);
+		else
+			hand.currentObject.localPosition = hand.weaponPivot.transform.localPosition;
 		hand.currentObject.localRotation = Quaternion.identity;
 		hand.myAnimator.SetBool ("Grab", false);
 	}
