@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Scrolls : MonoBehaviour {
 
@@ -80,6 +81,10 @@ public class Scrolls : MonoBehaviour {
 		}
 		if (Input.GetKeyDown (KeyCode.DownArrow)) {
 			PreviousAvailableScroll();
+		}
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			scrolls[currentActiveScrollIndex].GetComponentInChildren<InputField>().ActivateInputField();
 		}
 
 		myAnimator.SetInteger ("CurrentActiveScroll", currentActiveScrollIndex);
@@ -168,5 +173,11 @@ public class Scrolls : MonoBehaviour {
 			i = 0;
 			currentActiveScrollIndex = 0;
 		}
+	}
+
+	public void OnEndEdit()
+	{
+		Debug.Log ("DUPSKO");
+		scrolls [currentActiveScrollIndex].GetComponentInChildren<InputField> ().DeactivateInputField();
 	}
 }
