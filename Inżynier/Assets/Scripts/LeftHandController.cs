@@ -7,26 +7,38 @@ public class LeftHandController : MonoBehaviour {
 	public GameObject defaultLookAt;
 	public GameObject weaponPivot;
 	public Transform currentObject;
+    public GameObject shoulder;
 	public Animator myAnimator;
 	public Mixtures mixtures;
 	public Scrolls scrolls;
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+	{
+	    myAnimator = shoulder.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (!player.isComparing) {
+	void Update ()
+	{
+	    if (GameState.Instance.currentState == States.EQUIPMENT)
+	    {
+	        myAnimator.enabled = true;
+	        myAnimator = shoulder.GetComponent<Animator>();
+	    }
+
+        if (GameState.Instance.currentState != States.EQUIPMENT && !player.isComparing)
+        {
 			myAnimator.enabled = false;
 			myAnimator.SetBool("Compare", false);
 			myAnimator.SetBool ("ChoosingMixture", false);
 			myAnimator.SetBool ("ChoosingScrolls", false);
 		}
 
-		if (GameState.Instance.currentBackpackLayer == BackpackLayers.OBSERVE_ITEM) {
-			myAnimator.enabled = true;
+		if (GameState.Instance.currentBackpackLayer == BackpackLayers.OBSERVE_ITEM)
+		{
+			//myAnimator.enabled = true;
+            //myAnimator = shoulder.GetComponent<Animator>();
 			if(player.Hand.currentObject.GetComponent<Mixtures>())
 			{
 				myAnimator.SetBool ("ChoosingScrolls", false);
@@ -51,4 +63,10 @@ public class LeftHandController : MonoBehaviour {
 	{
 		myAnimator.SetInteger ("CurrentActiveScroll", currentScroll);
 	}
+
+    IEnumerator CloseAnimator()
+    {
+        yield return new WaitForSeconds(0.1f);
+        myAnimator.enabled = false;
+    }
 }
