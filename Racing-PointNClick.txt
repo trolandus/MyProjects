@@ -1,0 +1,44 @@
+Gra na zakład:
+- połączenie przygodówki z grą wyścigową
+- bohaterem jest rajdowiec, któremu gracz pomaga w jego perypetiach
+- etap wyścigowy (wybieramy samochód na wyścig) i etap przygodowy
+- baza danych samochodów dostępnych do wyboru
+- układ epizodyczny
+- etap przygodowy od boku (jak w Maniac Mansion)
+- etap ścigałkowy od góry (jak w Micro Machines)
+- epizod pierwszy (pilotażowy):
+	- bohater otrzymuje propozycję testów do zespołu
+	- budzi się rano później niż zamierzał
+	- musi się przygotować do wyjścia, ale po suto oblewanej imprezie dzień przed (z okazji propozycji) jego mieszkanie jest w sporym nieładzie - etap przygodówkowy
+	- po wyjściu z domu wsiada do swojego auta i pędzi na tor omijając inne pojazdy - etap ścigałkowy rodem ze starych gier na gameboya - omijanie przeszkód
+	- na miejscu zostaje zatrzymany przez stróża, który nie chce go przepuścić (brak potwierdzającego dokumentu o którym nasz bohater zapomniał). Należy go jakoś ominąć/pozbyć się - etap przygodowy
+	- test na czas - etap ścigałkowy
+	- poszukiwania jedynego mechanika, znaleziony nie nadaje się do pracy więc bohater postanawia własnoręcznie przygotować pojazd (wraz z instrukcją obsługi) - etap przygodowy
+	- pierwszy prawdziwy wyścig - etap ścigałkowy
+	- zostaje przysłany mandat do zapłaty za przekroczenie prędkości dwa dni temu (gdy bohater spieszył się na testy), w wyniku nieopłaconych kilku innych mandatów ląduje w areszcie, skąd musimy się wydostać - etap przygodowy
+	- drugi wyścig - etap ścigałkowy
+	- kuniec
+- oprócz fabuły możliwość rozegrania zwykłego wyścigu jednym z pojazdów na trzech torach (tych z kampanii)
+- pierwsze na czym trzeba się skupić na etapy ścigalkowe (żeby przy najczarniejszym scenariuszu ograniczyć się tylko do wyścigów)
+
+- 3 tory, 6 aut do wyboru (w trybie tylko wyścigowym, w kampanii będzie 1)
+- model jazdy (bez zniszczeń, przy kolizji spada nam prędkość)
+- baza danych torów i pojazdów (proste specyfikacje)
+- input do mobilek
+- ui: prędkość, pozycja, czas, liczba okrążeń, pauza (wejście w opcje)
+- ai kierowców :/
+
+- scenariusz trybu przygodowego
+- input do mobilek (chodzimy lewo-prawo, jak podejdziemy do czegoś z czym możemy wejść w interakcję pojawia się ikona)
+- ekwipunek
+- system dialogów
+- ui: ikonka interakcji, ekwipunek, dialogi, pauza (wejście w opcje)
+- system zapisu/odczytu
+
+potrzebne grafiki:
+
+
+scenariusz trybu przygodowego:
+- intro skonstruowane w formie czatu, bohater zaprasza kolejne osoby na imprezę
+- po zaproszeniu ostatniej osoby, komputer zostaje wyłączony a bohater budzi się następnego dnia
+- 
