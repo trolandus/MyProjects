@@ -13,10 +13,10 @@ public class SingleObject : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (isActive) {
-			this.gameObject.GetComponent<MeshRenderer>().materials[0].color = Color.yellow;
+			//this.gameObject.GetComponent<MeshRenderer>().materials[0].color = Color.yellow;
 			//this.enabled = true;
 		} else {
-			this.gameObject.GetComponent<MeshRenderer>().materials[0].color = Color.white;
+			//this.gameObject.GetComponent<MeshRenderer>().materials[0].color = Color.white;
 			this.enabled = false;
 		}
 
