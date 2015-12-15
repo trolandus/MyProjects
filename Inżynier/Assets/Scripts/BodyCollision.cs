@@ -82,8 +82,20 @@ public class BodyCollision : MonoBehaviour {
 			hand.myAnimator.enabled = true;
 			hand.myAnimator.SetBool("Show Weapon", true);
 
-			player.pickUp = true;
-			player.pickedUpWeapon = w;
+            hand.myAnimator.SetBool("Show Weapon Closer", true);
+
+		    StartCoroutine(Wait(w));
+		    //player.pickUp = true;
+		    //player.pickedUpWeapon = w;
 		}
 	}
+
+    IEnumerator Wait(Weapon w)
+    {
+        yield return new WaitForSeconds(0.25f);
+        GameState.Instance.currentState = States.PICKING_UP;
+        player.pickUp = true;
+        player.pickedUpWeapon = w;
+        StopCoroutine(Wait(w));
+    }
 }

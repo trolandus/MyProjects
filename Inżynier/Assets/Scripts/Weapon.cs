@@ -84,7 +84,7 @@ public class Weapon : MonoBehaviour {
 
 		if (playerWeapon != null) {
 			leftHand.myAnimator.enabled = true;
-			leftHand.myAnimator.SetBool("Compare", true);
+		    leftHand.myAnimator.SetBool("Compare", true);
 
 			playerWeapon.transform.position = leftHand.weaponPivot.transform.position;
 			playerWeapon.transform.rotation = leftHand.weaponPivot.transform.rotation;

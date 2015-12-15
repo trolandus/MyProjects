@@ -6,11 +6,14 @@ public class HeadController : MonoBehaviour {
 	public GameObject defaultLookAt;
 	public GameObject targetItem;
 	public BodyCollision body;
+    public Animator myAnimator;
 
 	public float fieldOfViewAngle = 60.0f;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
+	    myAnimator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame

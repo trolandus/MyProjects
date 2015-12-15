@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
 	public bool pickUp;
 	public Weapon currentWeapon;
 	public Weapon pickedUpWeapon;
+    public Weapon leftHandWeapon;
 	public GameObject pivot;
 	public GameObject body;
 	public GameObject head;
@@ -34,7 +35,10 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 movement;
 	private Animator myAnimator;
 	private HandController hand;
+    private LeftHandController leftHand;
 	private Weapon mainWeapon;
+    public Weapon weaponToTake;
+    public Weapon weaponToDrop;
 	public int activeWeapon;
 
 	private bool isWielding = false;
@@ -57,6 +61,7 @@ public class PlayerController : MonoBehaviour {
 		originalRotation = pivot.transform.localRotation;
 		newForward = this.transform.forward;
 		hand = GameObject.Find ("mixamorig:RightHand").GetComponent<HandController> ();
+	    leftHand = GameObject.Find("mixamorig:LeftHand").GetComponent<LeftHandController>();
 	}
 	
 	// Update is called once per frame
@@ -156,31 +161,65 @@ public class PlayerController : MonoBehaviour {
 
 		w.transform.localRotation = w.WeaponOriginalRotation * xQuaternion * yQuaternion;
 
-		if(Input.GetKeyDown (KeyCode.F)){
+	    if (!isComparing)
+	    {
+            hand.myAnimator.SetBool("Show Weapon Closer", false);
+	        weaponToTake = w;
+	    }
+
+	    if (Input.GetKeyDown(KeyCode.LeftArrow) && isComparing)
+	    {
+	        head.GetComponent<HeadController>().myAnimator.enabled = true;
+            head.GetComponent<HeadController>().myAnimator.SetBool("Turn Left", true);
+	        hand.myAnimator.SetBool("Show Weapon Closer", false);
+            leftHand.myAnimator.SetBool("Compare Closer", true);
+	        weaponToTake = leftHandWeapon;
+	        weaponToDrop = w;
+	    }
+
+	    if (Input.GetKeyDown(KeyCode.RightArrow) && isComparing)
+	    {
+	        head.GetComponent<HeadController>().myAnimator.enabled = false;
+            head.GetComponent<HeadController>().myAnimator.SetBool("Turn Left", false);
+            hand.myAnimator.SetBool("Show Weapon Closer", true);
+            leftHand.myAnimator.SetBool("Compare Closer", false);
+	        weaponToDrop = leftHandWeapon;
+	        weaponToTake = w;
+	    }
+
+		if(Input.GetKeyDown (KeyCode.E)){
 			isComparing = false;
 			head.GetComponent<HeadController>().body.weaponDetected = false;
+		    head.GetComponent<HeadController>().myAnimator.enabled = false;
 			hand.myAnimator.SetBool("Show Weapon", false);
+            leftHand.myAnimator.SetBool("Compare Closer", false);
 			hand.myAnimator.enabled = false;
 			GameState.Instance.currentState = States.GAMEPLAY;
 			pickUp = false;
 			//gameplay = true;
-			switch(w.type)
-			{
-			case WeaponType.MAIN:
-				DropComparedWeapon(MainWeaponSlot.GetComponentInChildren<Weapon>());
-				break;
-			case WeaponType.DISTANCE:
-				DropComparedWeapon(DistanceWeaponSlot.GetComponentInChildren<Weapon>());
-				break;
-			case WeaponType.MINOR:
-				DropComparedWeapon(MinorWeaponSlot.GetComponentInChildren<Weapon>());
-				break;
-			}
-			WieldWeapon();
+            //switch(w.type)
+            //{
+            //case WeaponType.MAIN:
+            //    DropComparedWeapon(MainWeaponSlot.GetComponentInChildren<Weapon>());
+            //    break;
+            //case WeaponType.DISTANCE:
+            //    DropComparedWeapon(DistanceWeaponSlot.GetComponentInChildren<Weapon>());
+            //    break;
+            //case WeaponType.MINOR:
+            //    DropComparedWeapon(MinorWeaponSlot.GetComponentInChildren<Weapon>());
+            //    break;
+            //}
+            DropComparedWeapon(weaponToDrop);
+            weaponToTake.gameObject.transform.SetParent(hand.weaponPivot.transform);
+		    weaponToTake.transform.position = hand.weaponPivot.transform.position;
+			WieldWeapon(weaponToTake);
+		    weaponToDrop = null;
+		    weaponToTake = null;
+		    leftHandWeapon = null;
 			this.myAnimator.enabled = true;
 		}
 
-		if (Input.GetKeyDown (KeyCode.G)) {
+		if (Input.GetKeyDown (KeyCode.Escape)) {
 			head.GetComponent<HeadController>().body.weaponDetected = false;
 			hand.myAnimator.SetBool("Show Weapon", false);
 			hand.myAnimator.enabled = false;
@@ -216,13 +255,16 @@ public class PlayerController : MonoBehaviour {
 
 		switch (weapon.type) {
 		case WeaponType.MAIN:
-			s = weapon.Compare(ref isComparing, MainWeaponSlot.GetComponentInChildren<Weapon>());
+		    leftHandWeapon = MainWeaponSlot.GetComponentInChildren<Weapon>();
+			s = weapon.Compare(ref isComparing, leftHandWeapon);
 			break;
 		case WeaponType.DISTANCE:
-			s = weapon.Compare(ref isComparing, DistanceWeaponSlot.GetComponentInChildren<Weapon>());
+		    leftHandWeapon = DistanceWeaponSlot.GetComponentInChildren<Weapon>();
+			s = weapon.Compare(ref isComparing, leftHandWeapon);
 			break;
 		case WeaponType.MINOR:
-			s = weapon.Compare(ref isComparing, MinorWeaponSlot.GetComponentInChildren<Weapon>());
+		    leftHandWeapon = MinorWeaponSlot.GetComponentInChildren<Weapon>();
+			s = weapon.Compare(ref isComparing, leftHandWeapon);
 			break;
 		}
 
@@ -231,9 +273,9 @@ public class PlayerController : MonoBehaviour {
 
 	void HideWieldWeaponAnim()
 	{
-		if (Input.GetKeyDown (KeyCode.F) && !isWielding) {
+		if (Input.GetKeyDown (KeyCode.Space) && !isWielding) {
 			myAnimator.SetBool ("WeldWeapon", true);
-		} else if (Input.GetKeyDown (KeyCode.F) && isWielding) {
+		} else if (Input.GetKeyDown (KeyCode.Space) && isWielding) {
 			myAnimator.SetBool("HideWeapon", true);
 		}
 	}
@@ -254,11 +296,11 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	public void WieldWeapon() //do odpalenia przy animacji (jako event)
+	public void WieldWeapon(Weapon w) //do odpalenia przy animacji (jako event)
 	{
 		myAnimator.SetBool ("WeldWeapon", false);
-		if (pickedUpWeapon != null) {
-			currentWeapon = pickedUpWeapon;
+		if (w != null) {
+			currentWeapon = w;
 			pickedUpWeapon = null;
 			currentWeapon.gameObject.GetComponent<Raycasting> ().enabled = false;
 
