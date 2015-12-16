@@ -27,7 +27,7 @@ public class LeftHandController : MonoBehaviour {
 	        myAnimator = shoulder.GetComponent<Animator>();
 	    }
 
-        if (GameState.Instance.currentState != States.EQUIPMENT && !player.isComparing)
+        if ((GameState.Instance.currentState != States.EQUIPMENT || GameState.Instance.currentBackpackLayer == BackpackLayers.CHOOSE_ITEM) && !player.isComparing)
         {
 			myAnimator.enabled = false;
 			myAnimator.SetBool("Compare", false);

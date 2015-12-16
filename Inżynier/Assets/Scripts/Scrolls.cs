@@ -76,10 +76,10 @@ public class Scrolls : MonoBehaviour {
 			if(scrollsCount != 0)
 				myAnimator.enabled = true;
 		}
-		if (Input.GetKeyDown (KeyCode.UpArrow)) {
+		if (Input.GetKeyDown (KeyCode.LeftArrow)) {
 			NextAvailableScroll();
 		}
-		if (Input.GetKeyDown (KeyCode.DownArrow)) {
+		if (Input.GetKeyDown (KeyCode.RightArrow)) {
 			PreviousAvailableScroll();
 		}
 
@@ -177,7 +177,6 @@ public class Scrolls : MonoBehaviour {
 
 	public void OnEndEdit()
 	{
-		Debug.Log ("DUPSKO");
 		scrolls [currentActiveScrollIndex].GetComponentInChildren<InputField> ().DeactivateInputField();
 	}
 }

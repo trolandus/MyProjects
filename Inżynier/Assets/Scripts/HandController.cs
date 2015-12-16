@@ -41,6 +41,12 @@ public class HandController : MonoBehaviour {
 				myAnimator.enabled = false;
 			}
 		}
+
+	    if (GameState.Instance.currentState == States.PICKING_UP)
+	    {
+	        myAnimator.SetBool("PointAt", false);
+            myAnimator.SetBool("PutBack", false);
+	    }
 	}
 
 	void LateUpdate(){

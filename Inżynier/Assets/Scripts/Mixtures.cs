@@ -94,7 +94,7 @@ public class Mixtures : MonoBehaviour {
 			mixtures [currentActiveMixtureIndex].enabled = true;
 			mixtures [currentActiveMixtureIndex].isActive = true;
 		}
-		if (Input.GetKeyDown(KeyCode.UpArrow)){
+		if (Input.GetKeyDown(KeyCode.LeftArrow)){
 			if(++listIndex >= mixturesIndices.Count)
 				listIndex = mixturesIndices.Count - 1;
 			currentActiveMixtureIndex = mixturesIndices[listIndex];
@@ -105,7 +105,7 @@ public class Mixtures : MonoBehaviour {
 			}
 			DisableMixtures();
 		}
-		if (Input.GetKeyDown (KeyCode.DownArrow)) {
+		if (Input.GetKeyDown (KeyCode.RightArrow)) {
 			if(--listIndex < 0)
 				listIndex = 0;
 			currentActiveMixtureIndex = mixturesIndices[listIndex];
