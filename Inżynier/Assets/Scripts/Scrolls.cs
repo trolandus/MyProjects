@@ -76,14 +76,32 @@ public class Scrolls : MonoBehaviour {
 			if(scrollsCount != 0)
 				myAnimator.enabled = true;
 		}
-		if (Input.GetKeyDown (KeyCode.LeftArrow)) {
-			NextAvailableScroll();
-		}
-		if (Input.GetKeyDown (KeyCode.RightArrow)) {
-			PreviousAvailableScroll();
-		}
+        //if (Input.GetKeyDown (KeyCode.LeftArrow)) {
+        //    NextAvailableScroll();
+        //}
+        //if (Input.GetKeyDown (KeyCode.RightArrow)) {
+        //    PreviousAvailableScroll();
+        //}
 
-		if (Input.GetKeyDown (KeyCode.Space)) {
+	    if (Input.mousePosition.x >= Screen.width * 0.48f && scrolls[0].activeInHierarchy)
+	    {
+	        currentActiveScrollIndex = 0;
+	    }
+        else if (Input.mousePosition.x <= Screen.width * 0.41f && scrolls[2].activeInHierarchy)
+        {
+            currentActiveScrollIndex = 2;
+        }
+        else
+        {
+            if (scrolls[1].activeInHierarchy)
+            {
+                currentActiveScrollIndex = 1;
+            }
+        }
+
+        //DOROBIC PRZESUWANIE PALCÓW GÓRA/DÓŁ (GÓRA DO POTWIERDZANIA UŻYCIA, DÓŁ DO OPISYWANIA)
+
+		if (Input.GetMouseButtonDown(0) && Input.mousePosition.y < Screen.height / 2) {
 			scrolls[currentActiveScrollIndex].GetComponentInChildren<InputField>().ActivateInputField();
 		}
 
@@ -94,7 +112,8 @@ public class Scrolls : MonoBehaviour {
 
 	void UseScroll(int index)
 	{
-		if (Input.GetKeyDown (KeyCode.E)) {
+		//if (Input.GetKeyDown (KeyCode.E)) {
+        if(Input.GetMouseButtonDown(0) && Input.mousePosition.y >= Screen.height / 2 && scrolls[index].activeInHierarchy) {
 			scrolls[index].SetActive(false);
 			UpdateScrollsCount();
 			currentActiveScrollIndex = SetCurrentIndex();

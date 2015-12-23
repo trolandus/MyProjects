@@ -88,33 +88,40 @@ public class Mixtures : MonoBehaviour {
 
 	void ChooseMixture(int startMixtureIndex)
 	{
+        Debug.Log(Input.mousePosition.x);
 		if (start) {
 			currentActiveMixtureIndex = startMixtureIndex;
 			listIndex = 0;
 			mixtures [currentActiveMixtureIndex].enabled = true;
 			mixtures [currentActiveMixtureIndex].isActive = true;
 		}
-		if (Input.GetKeyDown(KeyCode.LeftArrow)){
-			if(++listIndex >= mixturesIndices.Count)
-				listIndex = mixturesIndices.Count - 1;
-			currentActiveMixtureIndex = mixturesIndices[listIndex];
-			if(mixtures[currentActiveMixtureIndex] != null)
-			{
-				mixtures[currentActiveMixtureIndex].enabled = true;
-				mixtures[currentActiveMixtureIndex].isActive = true;
-			}
-			DisableMixtures();
-		}
-		if (Input.GetKeyDown (KeyCode.RightArrow)) {
-			if(--listIndex < 0)
-				listIndex = 0;
-			currentActiveMixtureIndex = mixturesIndices[listIndex];
-			if (mixtures [currentActiveMixtureIndex] != null) {
-				mixtures [currentActiveMixtureIndex].enabled = true;
-				mixtures [currentActiveMixtureIndex].isActive = true;
-			}
-			DisableMixtures ();
-		}
+        if (Input.mousePosition.x < Screen.width * 0.58f)
+        {
+            if (++listIndex >= mixturesIndices.Count)
+                listIndex = mixturesIndices.Count - 1;
+            currentActiveMixtureIndex = mixturesIndices[listIndex];
+            if (mixtures[currentActiveMixtureIndex] != null)
+            {
+                mixtures[currentActiveMixtureIndex].enabled = true;
+                mixtures[currentActiveMixtureIndex].isActive = true;
+            }
+            DisableMixtures();
+        }
+        else
+        {
+            if (--listIndex < 0)
+                listIndex = 0;
+            currentActiveMixtureIndex = mixturesIndices[listIndex];
+            if (mixtures[currentActiveMixtureIndex] != null)
+            {
+                mixtures[currentActiveMixtureIndex].enabled = true;
+                mixtures[currentActiveMixtureIndex].isActive = true;
+            }
+            DisableMixtures();
+        }
+
+
+
 		//if (currentActiveMixtureIndex < 0)
 		//	currentActiveMixtureIndex = 0;
 		//if (currentActiveMixtureIndex >= i)
@@ -147,7 +154,7 @@ public class Mixtures : MonoBehaviour {
 
 	void DrinkMixture()
 	{
-		if(Input.GetKeyDown(KeyCode.E))
+		if(Input.GetMouseButtonDown(0))
 		{
 			GameObject m = mixtures[currentActiveMixtureIndex].gameObject;
 			m.transform.parent = leftHand;

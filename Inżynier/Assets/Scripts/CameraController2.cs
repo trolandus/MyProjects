@@ -26,6 +26,10 @@ public class CameraController2 : MonoBehaviour {
 	
 	// LateUpdate is called once per frame after Update has finished
 	void LateUpdate () {
+	    if (Input.GetKeyDown(KeyCode.F1))
+	    {
+	        TurnOnCanvas();
+	    }
 		AnimatorStateInfo stateInfo = myAnimator.GetCurrentAnimatorStateInfo (0);
 		if (GameState.Instance.currentState == States.GAMEPLAY) {
 			if(stateInfo.nameHash == equipmentIdle || stateInfo.nameHash == showCloser)
@@ -55,23 +59,24 @@ public class CameraController2 : MonoBehaviour {
 			}
 			myAnimator.ResetTrigger(gameplayHash);
 			myAnimator.SetTrigger(equipmentHash);
-			if(player.Hand.currentObject != null && Input.GetKeyDown(KeyCode.Space) && GameState.Instance.currentBackpackLayer == BackpackLayers.ITEM_CHOSEN)
+			if(player.Hand.currentObject != null && GameState.Instance.currentBackpackLayer == BackpackLayers.ITEM_CHOSEN)
 			{
 				myAnimator.SetBool("ShowCloser", true);
 				GameState.Instance.currentBackpackLayer = BackpackLayers.OBSERVE_ITEM;
-				if(player.Hand.currentObject.GetComponent<Mixtures>())
-					mixtures.start = true;
-				else
-					scrolls.start = true;
+                //if(player.Hand.currentObject.GetComponent<Mixtures>())
+                //    mixtures.start = true;
+                //else
+                //    scrolls.start = true;
 			}
-			if(InputManager.Instance.lastKeyPressed == KeyCode.Escape && (GameState.Instance.currentBackpackLayer == BackpackLayers.OBSERVE_ITEM ||
+			if(Input.GetMouseButtonDown(1) && (GameState.Instance.currentBackpackLayer == BackpackLayers.OBSERVE_ITEM ||
 			                                                              GameState.Instance.currentBackpackLayer == BackpackLayers.ITEM_CHOSEN))
 			{
 				player.Hand.PutBack();
 				GameState.Instance.currentBackpackLayer = BackpackLayers.CHOOSE_ITEM;
-				myAnimator.SetBool("ShowCloser", false);
+				//myAnimator.SetBool("ShowCloser", false);
 				mixtures.TurnOff();
-				InputManager.Instance.lastKeyPressed = KeyCode.None;
+			    InputManager.Instance.rmbPressed = false;
+			    //InputManager.Instance.lastKeyPressed = KeyCode.None;
 			}
 		}
 		if (player.pickUp) {
@@ -94,4 +99,25 @@ public class CameraController2 : MonoBehaviour {
 		transform.rotation = (pivotpoint.transform.rotation);
 		transform.position = pivotpoint.transform.position + offsetBack * -transform.forward;
 	}
+
+    public Animator GetMyAnimator()
+    {
+        return myAnimator;
+    }
+
+    //jako event na zakończenie animacji kamery
+    public void TurnOnCanvas()
+    {
+        player.MindCanvas.enabled = true;
+    }
+
+    public void TurnRMBOff()
+    {
+        InputManager.Instance.rmbPressed = false;
+    }
+
+    public void TurnLMBOff()
+    {
+        InputManager.Instance.lmbPressed = false;
+    }
 }

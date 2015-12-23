@@ -23,7 +23,7 @@ public class LeftHandController : MonoBehaviour {
 	{
 	    if (GameState.Instance.currentState == States.EQUIPMENT)
 	    {
-	        myAnimator.enabled = true;
+            //myAnimator.enabled = true;
 	        myAnimator = shoulder.GetComponent<Animator>();
 	    }
 
@@ -49,6 +49,14 @@ public class LeftHandController : MonoBehaviour {
 			{
 				myAnimator.SetBool ("ChoosingMixture", false);
 				myAnimator.SetBool ("ChoosingScrolls", true);
+			    if (Input.mousePosition.y < Screen.height/2)
+			    {
+			        myAnimator.SetBool("Write", true);
+			    }
+			    else
+			    {
+			        myAnimator.SetBool("Write", false);
+			    }
 				ChooseScrollAnimation (scrolls.currentActiveScrollIndex);
 			}
 		}

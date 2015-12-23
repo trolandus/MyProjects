@@ -12,12 +12,14 @@ public class Weapon : MonoBehaviour {
 	public LeftHandController leftHand;
 
 	public UnityEngine.UI.Image buttonImage;
+    public Material SilhouetteMaterial;
 	public bool isActive;
 	public WeaponType type;
 
 	protected Quaternion weaponOriginalRotation;
 	protected float weaponRotationX = 0;
 	protected float weaponRotationY = 0;
+    protected MeshRenderer myRenderer;
 
 	public Quaternion WeaponOriginalRotation {
 		set {
@@ -50,6 +52,8 @@ public class Weapon : MonoBehaviour {
 	public void Start () {
 		buttonImage.enabled = false;
 		isActive = false;
+	    myRenderer = GetComponent<MeshRenderer>();
+        myRenderer.materials[1] = null;
 
 		foreach (WeaponElement e in this.elements) {
 			ParticleSystem ps = e.gameObject.GetComponent<ParticleSystem> ();
@@ -57,12 +61,22 @@ public class Weapon : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	public void Update () {
-		if (isActive) {
-			buttonImage.enabled = true;
-		}
-		else
-			buttonImage.enabled = false;
+	public void Update ()
+	{
+	    if (isActive)
+	    {
+	        var mats = myRenderer.materials;
+	        mats[1] = SilhouetteMaterial;
+	        myRenderer.materials = mats;
+	        //buttonImage.enabled = true;
+	    }
+	    else
+	    {
+	        var mats = myRenderer.materials;
+	        mats[1] = null;
+	        myRenderer.materials = mats;
+	    }
+	    //buttonImage.enabled = false;
 	}
 
 	public virtual void WieldWeapon()

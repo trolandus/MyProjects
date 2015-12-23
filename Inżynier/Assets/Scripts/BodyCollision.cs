@@ -38,6 +38,11 @@ public class BodyCollision : MonoBehaviour {
 			collidingWeapon = col.GetComponent<Weapon>();
 			col.GetComponent<Weapon>().buttonImage.transform.position = new Vector3(col.transform.position.x, col.transform.position.y + 0.5f, col.transform.position.z);
 		}
+
+	    if (col.tag == "Sign")
+	    {
+	        col.GetComponent<InteractiveSign>().isActive = true;
+	    }
 	}
 
 	void OnTriggerExit(Collider col)
@@ -48,10 +53,16 @@ public class BodyCollision : MonoBehaviour {
 			//player.pickUp = false;
 			collidingWeapon = null;
 		}
+
+        if (col.tag == "Sign")
+        {
+            col.GetComponent<InteractiveSign>().isActive = false;
+        }
 	}
 
 	void PickUp(Weapon w){
-		if (Input.GetKeyDown (KeyCode.E) && !player.pickUp) {
+		//if (Input.GetKeyDown (KeyCode.E) && !player.pickUp) {
+        if (Input.GetMouseButtonDown(0) && !player.pickUp) {
 			switch(w.type)
 			{
 			case WeaponType.MAIN:

@@ -34,7 +34,7 @@ public class HandController : MonoBehaviour {
 		}
 		if (GameState.Instance.currentState == States.EQUIPMENT) {
 			myAnimator.enabled = true;
-			if(GameState.Instance.currentBackpackLayer != BackpackLayers.ITEM_CHOSEN)
+			if(GameState.Instance.currentBackpackLayer == BackpackLayers.CHOOSE_ITEM)
 				ManageEquipment ();
 			if(GameState.Instance.currentBackpackLayer == BackpackLayers.DRINK)
 			{
@@ -56,24 +56,39 @@ public class HandController : MonoBehaviour {
 	}
 
 	void ManageEquipment(){
+        //ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
-		ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+        //Debug.DrawRay (ray.origin, ray.direction);
 
-		Debug.DrawRay (ray.origin, ray.direction);
+        //if (Physics.Raycast (ray, out hit)) {
+        //    if (hit.collider.tag == "BackpackItem") {
+        //        currentObject = hit.collider.transform;
+        //        //currentObject.localRotation = Quaternion.Euler(new Vector3(351.0f, 346.0f, 0.0f));
+        //    }
+        //} else
+        //    if(!isGrabing)
+        //        currentObject = null;
 
-		if (Physics.Raycast (ray, out hit)) {
-			if (hit.collider.tag == "BackpackItem") {
-				currentObject = hit.collider.transform;
-				//currentObject.localRotation = Quaternion.Euler(new Vector3(351.0f, 346.0f, 0.0f));
-			}
-		} else
-			if(!isGrabing)
-				currentObject = null;
+        myAnimator.SetBool("PointAt", true);
+
+	    if (Input.mousePosition.x >= Screen.width/2)
+	    {
+	        currentObject = scrolls.gameObject.transform;
+            myAnimator.SetBool("PointAtMixtures", false);
+            myAnimator.SetBool("PointAtScrolls", true);
+            
+	    }
+	    else
+	    {
+	        currentObject = mixtures.gameObject.transform;
+            myAnimator.SetBool("PointAtScrolls", false);
+	        myAnimator.SetBool("PointAtMixtures", true);
+	    }
 	}
 
 	void MoveHand(Transform obj){
 		if (obj != null) {
-			myAnimator.SetBool ("PointAt", true);
+			//myAnimator.SetBool ("PointAt", true);
 			if(Input.GetMouseButton(0))
 			{
 				if(currentObject.GetComponent<Mixtures>())
@@ -83,9 +98,12 @@ public class HandController : MonoBehaviour {
 				GrabItem();
 			}
 		}
-		else
-			if(!isGrabing)
-				myAnimator.SetBool ("PointAt", false);
+		else 
+            if (!isGrabing)
+		    {
+		        myAnimator.SetBool("PointAtScrolls", false);
+                myAnimator.SetBool("PointAtMixtures", false);
+		    }   
 	}
 
 	void GrabItem(){

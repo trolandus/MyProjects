@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour {
 	public Transform MainWeaponSlot;
 	public Transform DistanceWeaponSlot;
 	public Transform MinorWeaponSlot;
+    public Canvas MindCanvas;
 
 	public bool isComparing = false;
 
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour {
 
 	private Vector3 newForward;
 	private Vector3 movement;
+    private Vector3 oldDefaultLookAtPosition;
 	private Animator myAnimator;
 	private HandController hand;
     private LeftHandController leftHand;
@@ -98,17 +100,19 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OpenEquipment(){
-		if (Input.GetKeyDown (KeyCode.I)) {
+		//if (Input.GetKeyDown (KeyCode.I)) {
+        if (InputManager.Instance.PressMouseKey(1)) {
 			if(currentWeapon != null)
 				HideWeapon();
 			myAnimator.SetBool("Equipment", true);
 			GameState.Instance.currentBackpackLayer = BackpackLayers.CHOOSE_ITEM;
-			GameState.Instance.currentState = States.EQUIPMENT;
+            GameState.Instance.currentState = States.EQUIPMENT;
 		}
 	}
 
 	void CloseEquipment(){
-		if (Input.GetKeyDown (KeyCode.Escape) && GameState.Instance.currentBackpackLayer == BackpackLayers.CHOOSE_ITEM) {
+		//if (Input.GetKeyDown (KeyCode.Escape) && GameState.Instance.currentBackpackLayer == BackpackLayers.CHOOSE_ITEM) {
+        if (InputManager.Instance.PressMouseKey(1) && GameState.Instance.currentBackpackLayer == BackpackLayers.CHOOSE_ITEM) {
 			GameState.Instance.currentState = States.GAMEPLAY;
 			GameState.Instance.currentBackpackLayer = BackpackLayers.NONE;
 			hand.PutBack();
@@ -467,5 +471,4 @@ public class PlayerController : MonoBehaviour {
 	{
 		return myAnimator;
 	}
-
 }

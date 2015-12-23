@@ -4,6 +4,7 @@ using System.Collections;
 public class AnimEvent : MonoBehaviour {
 
 	public HandController hand;
+    public LeftHandController leftHand; 
 
 	// Use this for initialization
 	void Start () {
@@ -25,4 +26,13 @@ public class AnimEvent : MonoBehaviour {
 		hand.currentObject.localRotation = Quaternion.identity;
 		hand.myAnimator.SetBool ("Grab", false);
 	}
+
+    void RunLeftFinger()
+    {
+        leftHand.myAnimator.enabled = true;
+        if (hand.currentObject.GetComponent<Mixtures>())
+            hand.mixtures.start = true; 
+        else
+            hand.scrolls.start = true;
+    }
 }
