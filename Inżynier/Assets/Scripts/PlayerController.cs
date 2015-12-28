@@ -169,10 +169,17 @@ public class PlayerController : MonoBehaviour {
 
         Debug.Log(xQuaternion + " " + yQuaternion);
 
-	    xQuaternion = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
-        yQuaternion = new Quaternion(-1.0f, 0.0f, 0.0f, 1.0f);
-
-		w.transform.localRotation = w.WeaponOriginalRotation * xQuaternion * yQuaternion;
+	    if (isComparing)
+	    {
+	        xQuaternion = new Quaternion(1.0f, 0.0f, 0.0f, 1.0f);
+	        yQuaternion = new Quaternion(-1.0f, 0.0f, 0.0f, 1.0f);
+	    }
+	    else
+	    {
+	        xQuaternion = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+	        yQuaternion = new Quaternion(-1.0f, 0.25f, 0.0f, 1.0f);
+	    }
+	    w.transform.localRotation = w.WeaponOriginalRotation * xQuaternion * yQuaternion;
 
 	    if (!isComparing)
 	    {
@@ -181,11 +188,16 @@ public class PlayerController : MonoBehaviour {
 	    }
 	    else
 	    {
+            foreach (WeaponElement we in leftHandWeapon.elements)
+            {
+                we.isLeft = true;
+                we.statText.transform.position = we.GetParticleSystem().transform.position;
+            }
 	        weaponToTake = w;
-	        weaponToDrop = leftHandWeapon;
+            weaponToDrop = leftHandWeapon; 
 	    }
 
-	    if (Input.GetKeyDown(KeyCode.LeftArrow) && isComparing)
+	    if (/*Input.GetKeyDown(KeyCode.LeftArrow)*/Input.mousePosition.x <= Screen.width / 2 && isComparing)
 	    {
 	        head.GetComponent<HeadController>().myAnimator.enabled = true;
             head.GetComponent<HeadController>().myAnimator.SetBool("Turn Left", true);
@@ -195,7 +207,7 @@ public class PlayerController : MonoBehaviour {
 	        weaponToDrop = w;
 	    }
 
-	    if (Input.GetKeyDown(KeyCode.RightArrow) && isComparing)
+        if (/*Input.GetKeyDown(KeyCode.RightArrow)*/Input.mousePosition.x > Screen.width / 2 && isComparing)
 	    {
 	        head.GetComponent<HeadController>().myAnimator.enabled = false;
             head.GetComponent<HeadController>().myAnimator.SetBool("Turn Left", false);
@@ -205,7 +217,7 @@ public class PlayerController : MonoBehaviour {
 	        weaponToTake = w;
 	    }
 
-		if(Input.GetKeyDown (KeyCode.E)){
+		if(/*Input.GetKeyDown (KeyCode.E)*/InputManager.Instance.PressMouseKey(0)){
 			isComparing = false;
 			head.GetComponent<HeadController>().body.weaponDetected = false;
 		    head.GetComponent<HeadController>().myAnimator.enabled = false;
@@ -233,14 +245,29 @@ public class PlayerController : MonoBehaviour {
 			WieldWeapon(weaponToTake);
 		    weaponToDrop = null;
 		    weaponToTake = null;
+		    if (isComparing)
+		    {
+		        foreach (WeaponElement we in leftHandWeapon.elements)
+		        {
+		            we.isLeft = false;
+		        }
+		    }
 		    leftHandWeapon = null;
 			this.myAnimator.enabled = true;
 		}
 
-		if (Input.GetKeyDown (KeyCode.Escape)) {
-			head.GetComponent<HeadController>().body.weaponDetected = false;
+		if (/*Input.GetKeyDown (KeyCode.Escape)*/InputManager.Instance.PressMouseKey(1)) {
+            head.GetComponent<HeadController>().body.weaponDetected = false;
+            head.GetComponent<HeadController>().myAnimator.enabled = false;
 			hand.myAnimator.SetBool("Show Weapon", false);
 			hand.myAnimator.enabled = false;
+            if (isComparing)
+            {
+                foreach (WeaponElement we in leftHandWeapon.elements)
+                {
+                    we.isLeft = false;
+                }
+            }
 			GameState.Instance.currentState = States.GAMEPLAY;
 			pickUp = false;
 
@@ -254,6 +281,7 @@ public class PlayerController : MonoBehaviour {
 
 			this.myAnimator.enabled = true;
 			isComparing = false;
+		    InputManager.Instance.rmbPressed = false;
 		}
 	}
 

@@ -8,6 +8,7 @@ public class WeaponElement : MonoBehaviour {
 	public string stat;
 	public StatType statType;
 	public UnityEngine.UI.Text statText;
+    public bool isLeft;
 
 	private ParticleSystem ps;
 
@@ -21,7 +22,8 @@ public class WeaponElement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        statText.transform.position = ps.transform.position + new Vector3(0.5f, 0.0f, 0.0f);
+        if(!isLeft)
+            statText.transform.position = ps.transform.position + new Vector3(0.5f, 0.0f, 0.0f);
 	}
 
 	public void SetColor(int n, Color col)
@@ -37,4 +39,9 @@ public class WeaponElement : MonoBehaviour {
 			statText.enabled = true;
 		}
 	}
+
+    public ParticleSystem GetParticleSystem()
+    {
+        return ps;
+    }
 }
