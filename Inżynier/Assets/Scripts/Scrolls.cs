@@ -69,6 +69,21 @@ public class Scrolls : MonoBehaviour {
 		}
 	}
 
+    public float BorderLine(float x)
+    {
+        return -0.86f*x + 653.22f;
+    }
+
+    public float BorderLine2(float x)
+    {
+        return 1.14f*x - 405.82f;
+    }
+
+    public float BorderLine3(float x)
+    {
+        return 1.22f*x - 307.56f;
+    }
+
 	void ChooseScroll(int startIndex)
 	{
 		if (start) {
@@ -83,11 +98,11 @@ public class Scrolls : MonoBehaviour {
         //    PreviousAvailableScroll();
         //}
 
-	    if (Input.mousePosition.x >= Screen.width * 0.48f && scrolls[0].activeInHierarchy)
+	    if (Input.mousePosition.y <= BorderLine2(Input.mousePosition.x) /*Screen.width * 0.48f*/ && scrolls[0].activeInHierarchy)
 	    {
 	        currentActiveScrollIndex = 0;
 	    }
-        else if (Input.mousePosition.x <= Screen.width * 0.41f && scrolls[2].activeInHierarchy)
+        else if (Input.mousePosition.y >= BorderLine3(Input.mousePosition.x) && scrolls[2].activeInHierarchy)
         {
             currentActiveScrollIndex = 2;
         }
@@ -101,7 +116,7 @@ public class Scrolls : MonoBehaviour {
 
         //DOROBIC PRZESUWANIE PALCÓW GÓRA/DÓŁ (GÓRA DO POTWIERDZANIA UŻYCIA, DÓŁ DO OPISYWANIA)
 
-		if (Input.GetMouseButtonDown(0) && Input.mousePosition.y < Screen.height / 2) {
+		if (Input.GetMouseButtonDown(0) && Input.mousePosition.y < BorderLine(Input.mousePosition.x)/*Screen.height / 2*/) {
 			scrolls[currentActiveScrollIndex].GetComponentInChildren<InputField>().ActivateInputField();
 		}
 
@@ -113,7 +128,7 @@ public class Scrolls : MonoBehaviour {
 	void UseScroll(int index)
 	{
 		//if (Input.GetKeyDown (KeyCode.E)) {
-        if(Input.GetMouseButtonDown(0) && Input.mousePosition.y >= Screen.height / 2 && scrolls[index].activeInHierarchy) {
+        if(Input.GetMouseButtonDown(0) && Input.mousePosition.y >= BorderLine(Input.mousePosition.x)/*Screen.height / 2*/ && scrolls[index].activeInHierarchy) {
 			scrolls[index].SetActive(false);
 			UpdateScrollsCount();
 			currentActiveScrollIndex = SetCurrentIndex();

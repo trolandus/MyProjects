@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-public class Mixtures : MonoBehaviour {
-
+public class Mixtures : MonoBehaviour
+{
 	private Vector3 oldPosition;
 	private Quaternion oldRotation;
 	private Vector3 oldScale;
@@ -39,6 +40,7 @@ public class Mixtures : MonoBehaviour {
 	public int currentActiveMixtureIndex = 0;
 	public int listIndex;
 	private List<int> mixturesIndices = new List<int>();
+    public double border;
 
 	// Use this for initialization
 	void Start () {
@@ -86,16 +88,27 @@ public class Mixtures : MonoBehaviour {
 			currentActiveMixtureIndex = -1;
 	}
 
+    float BorderLine(float x)
+    {
+        return 1.06f*x - 398.36f;
+    }
+
+    public float BorderLine2(float x)
+    {
+        return -x + 953;
+    }
+
 	void ChooseMixture(int startMixtureIndex)
 	{
-        Debug.Log(Input.mousePosition.x);
+        Debug.Log(Input.mousePosition.y + " " + BorderLine2(Input.mousePosition.x));
 		if (start) {
 			currentActiveMixtureIndex = startMixtureIndex;
 			listIndex = 0;
 			mixtures [currentActiveMixtureIndex].enabled = true;
 			mixtures [currentActiveMixtureIndex].isActive = true;
 		}
-        if (Input.mousePosition.x < Screen.width * 0.58f)
+        //if (Input.mousePosition.x < Screen.width * 0.6084f)
+        if(Input.mousePosition.y > BorderLine(Input.mousePosition.x))
         {
             if (++listIndex >= mixturesIndices.Count)
                 listIndex = mixturesIndices.Count - 1;
@@ -120,17 +133,20 @@ public class Mixtures : MonoBehaviour {
             DisableMixtures();
         }
 
-
+	    border = Screen.height*0.482 + 51*currentActiveMixtureIndex;
 
 		//if (currentActiveMixtureIndex < 0)
 		//	currentActiveMixtureIndex = 0;
 		//if (currentActiveMixtureIndex >= i)
 		//	currentActiveMixtureIndex = i - 1;
 
-		if (Input.GetKeyDown (KeyCode.Space))
-			GameState.Instance.currentBackpackLayer = BackpackLayers.WRITE_ON_SUBITEM;
+        if (Input.GetMouseButtonDown(0) && Input.mousePosition.y < BorderLine2(Input.mousePosition.x))
+	    {
+	        GameState.Instance.currentBackpackLayer = BackpackLayers.WRITE_ON_SUBITEM;
+	        mixtures[currentActiveMixtureIndex].GetComponent<BottleWriting>().myText.text = "";
+	    }
 
-		start = false;
+	    start = false;
 	}
 
 	void DisableMixtures()
@@ -154,7 +170,7 @@ public class Mixtures : MonoBehaviour {
 
 	void DrinkMixture()
 	{
-		if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Input.mousePosition.y >= border)
 		{
 			GameObject m = mixtures[currentActiveMixtureIndex].gameObject;
 			m.transform.parent = leftHand;

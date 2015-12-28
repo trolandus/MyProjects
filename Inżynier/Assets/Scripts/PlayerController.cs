@@ -105,6 +105,7 @@ public class PlayerController : MonoBehaviour {
 			if(currentWeapon != null)
 				HideWeapon();
 			myAnimator.SetBool("Equipment", true);
+            Camera.main.GetComponent<CameraController2>().GetMyAnimator().SetBool("ShowCloser", true);
 			GameState.Instance.currentBackpackLayer = BackpackLayers.CHOOSE_ITEM;
             GameState.Instance.currentState = States.EQUIPMENT;
 		}
@@ -117,6 +118,9 @@ public class PlayerController : MonoBehaviour {
 			GameState.Instance.currentBackpackLayer = BackpackLayers.NONE;
 			hand.PutBack();
 			hand.currentObject = null;
+            hand.myAnimator.SetBool("PointAt", false);
+            hand.myAnimator.SetBool("PointAtScrolls", false);
+            hand.myAnimator.SetBool("PointAtMixtures", false);
 			hand.myAnimator.enabled = false;
 			myAnimator.SetBool("Equipment", false);
 		}
@@ -163,12 +167,22 @@ public class PlayerController : MonoBehaviour {
 		Quaternion xQuaternion = Quaternion.AngleAxis (w.WeaponRotationX, -Vector3.up);
 		Quaternion yQuaternion = Quaternion.AngleAxis (w.WeaponRotationY, Vector3.forward);
 
+        Debug.Log(xQuaternion + " " + yQuaternion);
+
+	    xQuaternion = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+        yQuaternion = new Quaternion(-1.0f, 0.0f, 0.0f, 1.0f);
+
 		w.transform.localRotation = w.WeaponOriginalRotation * xQuaternion * yQuaternion;
 
 	    if (!isComparing)
 	    {
             hand.myAnimator.SetBool("Show Weapon Closer", false);
 	        weaponToTake = w;
+	    }
+	    else
+	    {
+	        weaponToTake = w;
+	        weaponToDrop = leftHandWeapon;
 	    }
 
 	    if (Input.GetKeyDown(KeyCode.LeftArrow) && isComparing)
@@ -423,8 +437,12 @@ public class PlayerController : MonoBehaviour {
 	public IEnumerator Drink()
 	{
 		myAnimator.SetBool ("Drinking", true);
+        leftHand.myAnimator.SetBool("Drinking", true);
+	    leftHand.myAnimator.enabled = false;
 		yield return new WaitForSeconds(4.5f);
 		myAnimator.SetBool ("Drinking", false);
+	    leftHand.myAnimator.enabled = true;
+        leftHand.myAnimator.SetBool ("Drinking", false);
 		GameState.Instance.currentBackpackLayer = BackpackLayers.OBSERVE_ITEM;
 		StopCoroutine("Drink");
 	}

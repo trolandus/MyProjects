@@ -43,13 +43,21 @@ public class LeftHandController : MonoBehaviour {
 			{
 				myAnimator.SetBool ("ChoosingScrolls", false);
 				myAnimator.SetBool ("ChoosingMixture", true);
+                if (Input.mousePosition.y < mixtures.BorderLine2(Input.mousePosition.x))
+                {
+                    myAnimator.SetBool("Write", true);
+                }
+                else
+                {
+                    myAnimator.SetBool("Write", false);
+                }
 				ChooseMixtureAnimation (mixtures.currentActiveMixtureIndex);
 			}
 			if(player.Hand.currentObject.GetComponent<Scrolls>())
 			{
 				myAnimator.SetBool ("ChoosingMixture", false);
 				myAnimator.SetBool ("ChoosingScrolls", true);
-			    if (Input.mousePosition.y < Screen.height/2)
+			    if (Input.mousePosition.y < scrolls.BorderLine(Input.mousePosition.x))
 			    {
 			        myAnimator.SetBool("Write", true);
 			    }

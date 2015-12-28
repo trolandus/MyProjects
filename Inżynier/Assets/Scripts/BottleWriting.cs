@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class BottleWriting : MonoBehaviour {
 
@@ -39,6 +40,7 @@ public class BottleWriting : MonoBehaviour {
 		//myText.text = s;
 		myText.enabled = true;
 		myText.text = s;
-		myInputField.textComponent.enabled = false;
+	    GameState.Instance.currentBackpackLayer = BackpackLayers.OBSERVE_ITEM;
+        myInputField.textComponent.enabled = false;
 	}
 }

@@ -15,13 +15,13 @@ public class WeaponElement : MonoBehaviour {
 	void Start () {
 		ps = this.GetComponent<ParticleSystem> ();
 		statText.text = stat;
-		statText.transform.position = ps.transform.position;
+		statText.transform.position = ps.transform.position + new Vector3(0.5f, 0.0f, 0.0f);
 		statText.enabled = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		statText.transform.position = ps.transform.position;
+        statText.transform.position = ps.transform.position + new Vector3(0.5f, 0.0f, 0.0f);
 	}
 
 	public void SetColor(int n, Color col)
