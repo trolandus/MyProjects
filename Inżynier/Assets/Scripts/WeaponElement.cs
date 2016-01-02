@@ -22,7 +22,7 @@ public class WeaponElement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(!isLeft)
+        //if(!isLeft)
             statText.transform.position = ps.transform.position + new Vector3(0.5f, 0.0f, 0.0f);
 	}
 

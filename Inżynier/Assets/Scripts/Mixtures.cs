@@ -90,7 +90,8 @@ public class Mixtures : MonoBehaviour
 
     float BorderLine(float x)
     {
-        return 1.06f*x - 398.36f;
+        return 0.98f*x - 250.36f;
+        //return 1.06f*x - 398.36f;
     }
 
     public float BorderLine2(float x)
@@ -100,7 +101,8 @@ public class Mixtures : MonoBehaviour
 
 	void ChooseMixture(int startMixtureIndex)
 	{
-        Debug.Log(Input.mousePosition.y + " " + BorderLine2(Input.mousePosition.x));
+        //Debug.Log(Input.mousePosition.y + " " + BorderLine2(Input.mousePosition.x));
+        Debug.Log(Input.mousePosition);
 		if (start) {
 			currentActiveMixtureIndex = startMixtureIndex;
 			listIndex = 0;

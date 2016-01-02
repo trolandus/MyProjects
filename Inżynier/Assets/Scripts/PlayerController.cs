@@ -90,6 +90,20 @@ public class PlayerController : MonoBehaviour {
 			{
 				StartCoroutine("Drink");
 			}
+            
+	        if (GameState.Instance.currentBackpackLayer == BackpackLayers.OBSERVE_ITEM)
+	        {
+	            if ((hand.currentObject.GetComponent<Mixtures>() != null && hand.mixtures.currentActiveMixtureIndex == -1) ||
+                    (hand.currentObject.GetComponent<Scrolls>() != null && hand.scrolls.scrollsCount == 0))
+	            {
+                    //GameState.Instance.currentBackpackLayer = BackpackLayers.CHOOSE_ITEM;
+	                leftHand.myAnimator.SetBool("ChoosingScrolls", false);
+                    leftHand.myAnimator.SetBool("ChoosingMixture", false);
+                    leftHand.myAnimator.enabled = false;
+	                hand.PutBack();
+	                StartCoroutine("WaitToChangeState");
+	            }
+	        }   
 			CloseEquipment();
 			//gameplay = false;
 		}
@@ -183,16 +197,16 @@ public class PlayerController : MonoBehaviour {
 
 	    if (!isComparing)
 	    {
-            hand.myAnimator.SetBool("Show Weapon Closer", false);
+            //hand.myAnimator.SetBool("Show Weapon Closer", false);
 	        weaponToTake = w;
 	    }
 	    else
 	    {
-            foreach (WeaponElement we in leftHandWeapon.elements)
-            {
-                we.isLeft = true;
-                we.statText.transform.position = we.GetParticleSystem().transform.position;
-            }
+            //foreach (WeaponElement we in leftHandWeapon.elements)
+            //{
+            //    we.isLeft = true;
+            //    we.statText.transform.position = we.GetParticleSystem().transform.position;
+            //}
 	        weaponToTake = w;
             weaponToDrop = leftHandWeapon; 
 	    }
@@ -209,7 +223,7 @@ public class PlayerController : MonoBehaviour {
 
         if (/*Input.GetKeyDown(KeyCode.RightArrow)*/Input.mousePosition.x > Screen.width / 2 && isComparing)
 	    {
-	        head.GetComponent<HeadController>().myAnimator.enabled = false;
+	        head.GetComponent<HeadController>().myAnimator.enabled = true;
             head.GetComponent<HeadController>().myAnimator.SetBool("Turn Left", false);
             hand.myAnimator.SetBool("Show Weapon Closer", true);
             leftHand.myAnimator.SetBool("Compare Closer", false);
@@ -474,6 +488,13 @@ public class PlayerController : MonoBehaviour {
 		GameState.Instance.currentBackpackLayer = BackpackLayers.OBSERVE_ITEM;
 		StopCoroutine("Drink");
 	}
+
+    public IEnumerator WaitToChangeState()
+    {
+        yield return new WaitForSeconds(1f);
+        GameState.Instance.currentBackpackLayer = BackpackLayers.CHOOSE_ITEM;
+        StopCoroutine("WaitToChangeState");
+    }
 
 	void SetActiveWeapon()
 	{

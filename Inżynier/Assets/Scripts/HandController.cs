@@ -69,20 +69,33 @@ public class HandController : MonoBehaviour {
         //    if(!isGrabing)
         //        currentObject = null;
 
-        myAnimator.SetBool("PointAt", true);
+        if(mixtures.currentActiveMixtureIndex != -1 || scrolls.scrollsCount != 0)
+            myAnimator.SetBool("PointAt", true);
+        else
+        {
+            myAnimator.SetBool("PointAtMixtures", false);
+            myAnimator.SetBool("PointAtScrolls", false);
+            myAnimator.SetBool("PointAt", false);
+            currentObject = null;
+        }
 
 	    if (Input.mousePosition.x >= Screen.width/2)
 	    {
-	        currentObject = scrolls.gameObject.transform;
-            myAnimator.SetBool("PointAtMixtures", false);
-            myAnimator.SetBool("PointAtScrolls", true);
-            
+	        if (scrolls.scrollsCount != 0)
+	        {
+	            currentObject = scrolls.gameObject.transform;
+	            myAnimator.SetBool("PointAtMixtures", false);
+	            myAnimator.SetBool("PointAtScrolls", true);
+	        }
 	    }
 	    else
 	    {
-	        currentObject = mixtures.gameObject.transform;
-            myAnimator.SetBool("PointAtScrolls", false);
-	        myAnimator.SetBool("PointAtMixtures", true);
+            if (mixtures.currentActiveMixtureIndex != -1)
+	        {
+	            currentObject = mixtures.gameObject.transform;
+	            myAnimator.SetBool("PointAtScrolls", false);
+	            myAnimator.SetBool("PointAtMixtures", true);
+	        }
 	    }
 	}
 

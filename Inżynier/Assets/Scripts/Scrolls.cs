@@ -48,6 +48,7 @@ public class Scrolls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        Debug.Log(Input.mousePosition );
 		if (GameState.Instance.currentBackpackLayer == BackpackLayers.OBSERVE_ITEM) {
 			if(scrollsCount != 0)
 			{
@@ -76,12 +77,14 @@ public class Scrolls : MonoBehaviour {
 
     public float BorderLine2(float x)
     {
-        return 1.14f*x - 405.82f;
+        //return 1.14f*x - 405.82f;
+        return 1.2f*x - 330.8f;
     }
 
     public float BorderLine3(float x)
     {
-        return 1.22f*x - 307.56f;
+        return 0.72f*x - 15.48f;
+        //return 1.22f*x - 307.56f;
     }
 
 	void ChooseScroll(int startIndex)
