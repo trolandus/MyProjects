@@ -48,7 +48,7 @@ public class Scrolls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(Input.mousePosition );
+        //Debug.Log(Input.mousePosition );
 		if (GameState.Instance.currentBackpackLayer == BackpackLayers.OBSERVE_ITEM) {
 			if(scrollsCount != 0)
 			{

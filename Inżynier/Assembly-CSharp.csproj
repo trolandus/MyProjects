@@ -69,19 +69,18 @@
      <Compile Include="Assets\Scripts\UI.cs" />
      <Compile Include="Assets\Scripts\Weapon.cs" />
      <Compile Include="Assets\Scripts\WeaponElement.cs" />
+     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
+     <None Include="Assets\Standard Assets\water well\readme.txt" />
      <None Include="Assets\Breakable Glass\Shaders\SimpleGlass.shader" />
+     <None Include="Assets\Standard Assets\PolyIslandPack\Shaders\PolyIsland_VertexColor.shader" />
      <None Include="Assets\Scripts\ContourShader.shader" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>D:/Programy/Unity 5/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
+     <None Include="Assets\Standard Assets\PolyIslandPack\Shaders\PolyIsland_VertexColor_foliage.shader" />
+     <None Include="Assets\Standard Assets\PolyIslandPack\Shaders\PolyIsland_VertexColor_mobile_unlit.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Programy/Unity 5/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>D:/Programy/Unity 5/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>D:/Programy/Unity 5/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>D:/Programy/Unity 5/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
@@ -89,6 +88,10 @@
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>D:/Programy/Unity 5/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{D721EF67-72F0-91F1-DA5F-972C654D3DE2}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
