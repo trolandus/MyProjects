@@ -72,15 +72,30 @@
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\water well\readme.txt" />
      <None Include="Assets\Breakable Glass\Shaders\SimpleGlass.shader" />
-     <None Include="Assets\Standard Assets\PolyIslandPack\Shaders\PolyIsland_VertexColor.shader" />
+     <None Include="Assets\Standard Assets\EasyRoads3D Free\Shaders\EasyRoads3D-Surface.shader" />
+     <None Include="Assets\Standard Assets\EasyRoads3D Free\Release Notes.txt" />
+     <None Include="Assets\Standard Assets\EasyRoads3D Free\Shaders\EasyRoads3D Marker.shader" />
+     <None Include="Assets\Standard Assets\EasyRoads3D Free\Shaders\EasyRoads3D-Surface_Alpha.shader" />
+     <None Include="Assets\Standard Assets\EasyRoads3D Free\Shaders\surfaceAlpha.shader" />
+     <None Include="Assets\Standard Assets\EasyRoads3D Free\Shaders\EasyRoads3D-Normal-Diffuse.shader" />
+     <None Include="Assets\Standard Assets\EasyRoads3D Free\Shaders\Surface.shader" />
      <None Include="Assets\Scripts\ContourShader.shader" />
-     <None Include="Assets\Standard Assets\PolyIslandPack\Shaders\PolyIsland_VertexColor_foliage.shader" />
-     <None Include="Assets\Standard Assets\PolyIslandPack\Shaders\PolyIsland_VertexColor_mobile_unlit.shader" />
+     <None Include="Assets\Standard Assets\EasyRoads3D Free\_readme.txt" />
+     <None Include="Assets\Standard Assets\EasyRoads3D Free\Shaders\EasyRoads3D-Road-Edit-Mode.shader" />
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>D:/Programy/Unity 5/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Programy/Unity 5/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>D:/Programy/Unity 5/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>D:/Programy/Unity 5/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="EasyRoads3D">
+ <HintPath>D:/MyProjects/Inżynier/Assets/Standard Assets/EasyRoads3D Free/lib/EasyRoads3D.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>D:/Programy/Unity 5/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

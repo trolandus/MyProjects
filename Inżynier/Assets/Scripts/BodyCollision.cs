@@ -76,13 +76,15 @@ public class BodyCollision : MonoBehaviour {
 				break;
 			}
 			player.GetMyAnimator().SetInteger("WeaponType", player.activeWeapon);
-			if(player.currentWeapon !=  null)
-				player.HideWeapon();
-			//weapon transformation
-			w.transform.position = hand.weaponPivot.transform.position;
+            if (player.currentWeapon != null)
+            {
+                player.HideWeapon();
+            }
+            //weapon transformation
+			w.transform.position = hand.weaponPivot.transform.position;	 w.transform.SetParent(hand.weaponPivot.transform);		
 			w.transform.rotation = hand.weaponPivot.transform.rotation;
-			w.transform.Rotate(new Vector3(270, 0, 0));
-			w.transform.SetParent(hand.weaponPivot.transform);
+			w.transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));
+           
 			w.WeaponOriginalRotation = w.transform.rotation;
 
 			w.isActive = false;
