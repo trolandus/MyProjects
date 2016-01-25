@@ -105,7 +105,7 @@ public class Weapon : MonoBehaviour {
 
 			if(this.damage > playerWeapon.damage)
 			{
-				col = Color.green;
+				col = new Color(0, 0.48f, 0.08f);//Color.green;
 				col2 = Color.red;
 				textToChange = 0;
 			}
@@ -118,7 +118,7 @@ public class Weapon : MonoBehaviour {
 			else
 			{
 				col = Color.red;
-				col2 = Color.green;
+                col2 = new Color(0, 0.48f, 0.08f); //Color.green;
 				textToChange = 0;
 			}
 

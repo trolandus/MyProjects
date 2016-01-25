@@ -120,10 +120,10 @@ public class HandController : MonoBehaviour {
 	}
 
 	void GrabItem(){
+        myAnimator.SetBool("Grab", true);
 		myAnimator.SetBool ("PutBack", false);
 		isGrabing = true;
 		GameState.Instance.currentBackpackLayer = BackpackLayers.ITEM_CHOSEN;
-		myAnimator.SetBool ("Grab", true);
 	}
 
 	public void PutBack(){

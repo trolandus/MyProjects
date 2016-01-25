@@ -33,6 +33,6 @@ public class AnimEvent : MonoBehaviour {
         if (hand.currentObject.GetComponent<Mixtures>())
             hand.mixtures.start = true; 
         else
-            hand.scrolls.start = true;
+            hand.scrolls.start = false;
     }
 }

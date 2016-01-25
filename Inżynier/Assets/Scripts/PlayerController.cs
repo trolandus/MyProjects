@@ -128,6 +128,8 @@ public class PlayerController : MonoBehaviour
         {
             if (currentWeapon != null)
                 HideWeapon();
+            myAnimator.SetFloat("Speed", 0);
+            myAnimator.SetFloat("SpeedStrafe", 0);
             myAnimator.SetBool("Equipment", true);
             Camera.main.GetComponent<CameraController2>().GetMyAnimator().SetBool("ShowCloser", true);
             GameState.Instance.currentBackpackLayer = BackpackLayers.CHOOSE_ITEM;
@@ -306,6 +308,7 @@ public class PlayerController : MonoBehaviour
             TurnOffStrings(w);
             DropComparedWeapon(w);
             pickedUpWeapon = null;
+            weaponToTake = null;
 
             HideWeapon(MainWeaponSlot.GetComponentInChildren<Weapon>());
             HideWeapon(DistanceWeaponSlot.GetComponentInChildren<Weapon>());

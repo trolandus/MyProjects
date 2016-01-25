@@ -13,7 +13,7 @@ public class Scrolls : MonoBehaviour {
 	public int currentActiveScrollIndex;
 	public int scrollsCount;
 	public GameObject[] scrolls;
-	public bool start;
+	public bool start = true;
 
 	public Vector3 OldPosition
 	{
@@ -48,6 +48,7 @@ public class Scrolls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        Debug.Log(start);
         //Debug.Log(Input.mousePosition );
 		if (GameState.Instance.currentBackpackLayer == BackpackLayers.OBSERVE_ITEM) {
 			if(scrollsCount != 0)
@@ -93,6 +94,7 @@ public class Scrolls : MonoBehaviour {
 			currentActiveScrollIndex = startIndex;
 			if(scrollsCount != 0)
 				myAnimator.enabled = true;
+		    //start = false;
 		}
         //if (Input.GetKeyDown (KeyCode.LeftArrow)) {
         //    NextAvailableScroll();
@@ -119,19 +121,19 @@ public class Scrolls : MonoBehaviour {
 
         //DOROBIC PRZESUWANIE PALCÓW GÓRA/DÓŁ (GÓRA DO POTWIERDZANIA UŻYCIA, DÓŁ DO OPISYWANIA)
 
-		if (Input.GetMouseButtonDown(0) && Input.mousePosition.y < BorderLine(Input.mousePosition.x)/*Screen.height / 2*/) {
+		if (Input.GetMouseButtonDown(0) && Input.mousePosition.y < BorderLine(Input.mousePosition.x) && !start/*Screen.height / 2*/) {
 			scrolls[currentActiveScrollIndex].GetComponentInChildren<InputField>().ActivateInputField();
 		}
 
 		myAnimator.SetInteger ("CurrentActiveScroll", currentActiveScrollIndex);
 
-		start = false;
+		//start = false;
 	}
 
 	void UseScroll(int index)
 	{
 		//if (Input.GetKeyDown (KeyCode.E)) {
-        if(Input.GetMouseButtonDown(0) && Input.mousePosition.y >= BorderLine(Input.mousePosition.x)/*Screen.height / 2*/ && scrolls[index].activeInHierarchy) {
+        if(Input.GetMouseButtonDown(0) && Input.mousePosition.y >= BorderLine(Input.mousePosition.x)/*Screen.height / 2*/ && scrolls[index].activeInHierarchy && !start) {
 			scrolls[index].SetActive(false);
 			UpdateScrollsCount();
 			currentActiveScrollIndex = SetCurrentIndex();

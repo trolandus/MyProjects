@@ -142,7 +142,7 @@ public class Mixtures : MonoBehaviour
 		//if (currentActiveMixtureIndex >= i)
 		//	currentActiveMixtureIndex = i - 1;
 
-        if (Input.GetMouseButtonDown(0) && Input.mousePosition.y < BorderLine2(Input.mousePosition.x))
+        if (Input.GetMouseButtonDown(0) && Input.mousePosition.y < BorderLine2(Input.mousePosition.x) && !start)
 	    {
 	        GameState.Instance.currentBackpackLayer = BackpackLayers.WRITE_ON_SUBITEM;
 	        mixtures[currentActiveMixtureIndex].GetComponent<BottleWriting>().myText.text = "";
@@ -172,7 +172,7 @@ public class Mixtures : MonoBehaviour
 
 	void DrinkMixture()
 	{
-        if (Input.GetMouseButtonDown(0) && Input.mousePosition.y >= border)
+        if (Input.GetMouseButtonDown(0) && Input.mousePosition.y >= BorderLine2(Input.mousePosition.x) && !start)
 		{
 			GameObject m = mixtures[currentActiveMixtureIndex].gameObject;
 			m.transform.parent = leftHand;
