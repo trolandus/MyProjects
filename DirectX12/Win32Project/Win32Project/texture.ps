@@ -1,0 +1,20 @@
+//This will be our texture resource that will be used for rendering the texture on the model.
+Texture2D shaderTexture;
+//The sampler state allows us to modify how the pixels are written to the polygon face when shaded.
+SamplerState SampleType;
+
+struct PixelInputType
+{
+	float4 position : SV_POSITION;
+	float2 tex : TEXCOORD0;
+};
+
+float4 TexturePixelShader( PixelInputType input ) : SV_TARGET
+{
+	float4 textureColor;
+
+	//Sample the pixel color from the texture using the sampler at this texture coordinate location.
+	textureColor = shaderTexture.Sample(SampleType, input.tex);
+
+	return textureColor;
+}

@@ -280,44 +280,175 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	//Bind the render target view and depth stencil buffer to the output render pipeline.
 	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
 
+	//Setup the raster description which will determine how and what polygons will be drawn.
+	rasterDesc.FillMode = D3D11_FILL_SOLID;
+	rasterDesc.CullMode = D3D11_CULL_NONE;
+	rasterDesc.FrontCounterClockwise = false;
+	rasterDesc.DepthBias = 0;
+	rasterDesc.DepthBiasClamp = 0.0f;
+	rasterDesc.SlopeScaledDepthBias = 0.0f;
+	rasterDesc.DepthClipEnable = true;
+	rasterDesc.ScissorEnable = false;
+	rasterDesc.MultisampleEnable = false;
+	rasterDesc.AntialiasedLineEnable = false;
+
+	result = m_device->CreateRasterizerState(&rasterDesc, &m_rasterState);
+	if (FAILED(result))
+	{
+		return false;
+	}
+	m_deviceContext->RSSetState(m_rasterState);
+
+	//Setup the viewport for rendering. Set this to be the entire size of the window.
+	viewport.Width = (float)screenWidth;
+	viewport.Height = (float)screenHeight;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+	viewport.TopLeftX = 0.0f;
+	viewport.TopLeftY = 0.0f;
+
+	m_deviceContext->RSSetViewports(1, &viewport);
+
+	//Setup the projection matrix. The projection matrix is used to translate the 3D scene into the 2D viewport space that we previously created.
+	fieldOfView = 3.141592654f / 4.0f; //45 degrees -> PI/4
+	screenAspect = (float)screenWidth / (float)screenHeight;
+
+	//Create the projection matrix
+	m_projectionMatrix = XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenDepth);
+	//Initialize the world matrix to the identity matrix.
+	m_worldMatrix = XMMatrixIdentity();
+	//Create an orthographic projection matrix for 2D rendering. This matrix is used for rendering 2D elements like user interfaces on the screen allowing us to skip the 3D rendering.
+	m_orthoMatrix = XMMatrixOrthographicLH((float)screenWidth, (float)screenHeight, screenNear, screenDepth);
+
 	return true;
 }
 
 void D3DClass::Shutdown()
 {
+	//Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
+	if (m_swapChain)
+	{
+		m_swapChain->SetFullscreenState(false, NULL);
+	}
 
+	if (m_rasterState)
+	{
+		m_rasterState->Release();
+		m_rasterState = 0;
+	}
+
+	if (m_depthStencilView)
+	{
+		m_depthStencilView->Release();
+		m_depthStencilView = 0;
+	}
+
+	if (m_depthStencilState)
+	{
+		m_depthStencilState->Release();
+		m_depthStencilState = 0;
+	}
+
+	if (m_depthStencilBuffer)
+	{
+		m_depthStencilBuffer->Release();
+		m_depthStencilBuffer = 0;
+	}
+
+	if (m_renderTargetView)
+	{
+		m_renderTargetView->Release();
+		m_renderTargetView = 0;
+	}
+
+	if (m_deviceContext)
+	{
+		m_deviceContext->Release();
+		m_deviceContext = 0;
+	}
+
+	if (m_device)
+	{
+		m_device->Release();
+		m_device = 0;
+	}
+
+	if (m_swapChain)
+	{
+		m_swapChain->Release();
+		m_swapChain = 0;
+	}
+
+	return;
 }
 
-void D3DClass::BeginScene(float, float, float, float)
+//BeginScene will be called whenever we are going to draw a new 3D scene at the beginning of each frame.
+//All it does is initializes the buffers so they are blank and ready to be drawn to.
+void D3DClass::BeginScene(float red, float green, float blue, float alpha)
 {
+	float color[4];
+
+	//Setup the color to clear the buffer to.
+	color[0] = red;
+	color[1] = green;
+	color[2] = blue;
+	color[3] = alpha;
+
+	m_deviceContext->ClearRenderTargetView(m_renderTargetView, color);
+	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+	return;
 }
 
+//EndScene tells the swap chain to display our 3D scene once all the drawing has completed at the end of each frame.
 void D3DClass::EndScene()
 {
+	//Present the back buffer to the screen since rendering is complete.
+	if (m_vsync_enabled)
+	{
+		//Lock to screen refresh rate.
+		m_swapChain->Present(1, 0);
+	}
+	else
+	{
+		//Present as fast as possible.
+		m_swapChain->Present(0, 0);
+	}
+
+	return;
 }
 
 ID3D11Device * D3DClass::GetDevice()
 {
-	return nullptr;
+	return m_device;
 }
 
 ID3D11DeviceContext * D3DClass::GetDeviceContext()
 {
-	return nullptr;
+	return m_deviceContext;
 }
 
-void D3DClass::GetProjectionMatrix(XMMATRIX &)
+void D3DClass::GetProjectionMatrix(XMMATRIX &projectionMatrix)
 {
+	projectionMatrix = m_projectionMatrix;
+	return;
 }
 
-void D3DClass::GetWorldMatrix(XMMATRIX &)
+void D3DClass::GetWorldMatrix(XMMATRIX &worldMatrix)
 {
+	worldMatrix = m_worldMatrix;
+	return;
 }
 
-void D3DClass::GetOrthoMatrix(XMMATRIX &)
+void D3DClass::GetOrthoMatrix(XMMATRIX &orthoMatrix)
 {
+	orthoMatrix = m_orthoMatrix;
+	return;
 }
 
-void D3DClass::GetVideoCardInfo(char *, int &)
+void D3DClass::GetVideoCardInfo(char *cardName, int &memory)
 {
+	strcpy_s(cardName, 128, m_videoCardDescription);
+	memory = m_videoCardMemory;
+	return;
 }
